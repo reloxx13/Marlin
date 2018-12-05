@@ -106,6 +106,10 @@ uint8_t MarlinUI::lcd_status_update_delay = 1; // First update one loop delayed
   uint8_t MarlinUI::progress_bar_percent; // = 0
 #endif
 
+#if ENABLED(LONG_PRESS_FOR_MOVE_Z)
+  static void lcd_move_z();
+#endif
+
 millis_t next_button_update_ms;
 
 #if HAS_GRAPHICAL_LCD

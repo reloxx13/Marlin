@@ -226,6 +226,21 @@ void MarlinUI::goto_screen(screenFunc_t screen, const uint32_t encoder/*=0*/) {
       }
     #endif
 
+    #if ENABLED(LONG_PRESS_FOR_MOVE_Z) && BUTTON_EXISTS(ENC)
+        if (screen == menu_main && currentScreen == status_screen) {
+          const millis_t long_press_expire_ms = millis() + LONG_PRESS_MIN_INTERVAL;
+          while (BUTTON_PRESSED(ENC)) {
+            if (ELAPSED(millis(), long_press_expire_ms)) {
+              //wait_for_unclick = true;
+              move_menu_scale = 1.0;
+              screen = lcd_move_z;
+              break;
+            }
+            safe_delay(50);
+          }
+        }
+      #endif
+
     currentScreen = screen;
     encoderPosition = encoder;
     if (screen == status_screen) {

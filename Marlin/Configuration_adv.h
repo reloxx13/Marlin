@@ -837,6 +837,15 @@
 
 // @section lcd
 
+
+/**
+ * Move Z axis by holding down the control knob
+ */
+
+//#define LONG_PRESS_FOR_MOVE_Z
+#if ENABLED(LONG_PRESS_FOR_MOVE_Z)
+  #define LONG_PRESS_MIN_INTERVAL 1000 // Minimum interval of long press, in milliseconds.
+#endif
 /**
  * Babystepping enables movement of the axes by tiny increments without changing
  * the current position values. This feature is used primarily to adjust the Z
