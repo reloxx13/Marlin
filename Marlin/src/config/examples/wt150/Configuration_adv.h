@@ -820,19 +820,19 @@
   // Swap the CW/CCW indicators in the graphics overlay
   //#define OVERLAY_GFX_REVERSE
 
+  /**
+   * ST7920-based LCDs can emulate a 16 x 4 character display using
+   * the ST7920 character-generator for very fast screen updates.
+   * Enable LIGHTWEIGHT_UI to use this special display mode.
+   *
+   * Since LIGHTWEIGHT_UI has limited space, the position and status
+   * message occupy the same line. Set STATUS_EXPIRE_SECONDS to the
+   * length of time to display the status message before clearing.
+   *
+   * Set STATUS_EXPIRE_SECONDS to zero to never clear the status.
+   * This will prevent position updates from being displayed.
+   */
   #if ENABLED(U8GLIB_ST7920)
-    /**
-     * ST7920-based LCDs can emulate a 16 x 4 character display using
-     * the ST7920 character-generator for very fast screen updates.
-     * Enable LIGHTWEIGHT_UI to use this special display mode.
-     *
-     * Since LIGHTWEIGHT_UI has limited space, the position and status
-     * message occupy the same line. Set STATUS_EXPIRE_SECONDS to the
-     * length of time to display the status message before clearing.
-     *
-     * Set STATUS_EXPIRE_SECONDS to zero to never clear the status.
-     * This will prevent position updates from being displayed.
-     */
     //#define LIGHTWEIGHT_UI
     #if ENABLED(LIGHTWEIGHT_UI)
       #define STATUS_EXPIRE_SECONDS 20
@@ -1298,17 +1298,14 @@
  * in your `pins_MYBOARD.h` file. (e.g., RAMPS 1.4 uses AUX3 pins `X_CS_PIN 53`, `Y_CS_PIN 49`, etc.).
  * You may also use software SPI if you wish to use general purpose IO pins.
  *
- * The TMC2130Stepper library is required for this stepper driver.
- * https://github.com/teemuatlut/TMC2130Stepper
- *
  * To use TMC2208 stepper UART-configurable stepper drivers
  * connect #_SERIAL_TX_PIN to the driver side PDN_UART pin with a 1K resistor.
  * To use the reading capabilities, also connect #_SERIAL_RX_PIN
  * to PDN_UART without a resistor.
  * The drivers can also be used with hardware serial.
  *
- * The TMC2208Stepper library is required for this stepper driver.
- * https://github.com/teemuatlut/TMC2208Stepper
+ * TMCStepper library is required for connected TMC stepper drivers.
+ * https://github.com/teemuatlut/TMCStepper
  */
 #if HAS_TRINAMIC
 
@@ -1390,6 +1387,12 @@
   #define STEALTHCHOP_XY
   #define STEALTHCHOP_Z
   #define STEALTHCHOP_E
+
+  /**
+   * Adjust spreadCycle chopper parameters with the help of an example included in the library.
+   * The parameters are off time, hysteresis end and hysteresis start.
+   */
+  #define CHOPPER_TIMING { 4, -2, 1 }
 
   /**
    * Monitor Trinamic TMC2130 and TMC2208 drivers for error conditions,
