@@ -87,6 +87,7 @@
 #define BOARD_RAMPS_CREALITY    244   // Creality: CR10S, CR20, CR-X
 #define BOARD_FYSETC_F6_13      541   // Fysetc F6
 #define BOARD_DUPLICATOR_I3_PLUS 31   // Wanhao Duplicator i3 Plus
+#define BOARD_VORON             441   // VORON Design
 
 //
 // Other ATmega1280, ATmega2560
@@ -240,6 +241,7 @@
 #define BOARD_BEAST            1802   // STM32FxxxVxT6 Libmaple based stm32f4 controller
 #define BOARD_STM32F4          1804   // STM32 STM32GENERIC based STM32F4 controller
 #define BOARD_ARMED            1807   // Arm'ed STM32F4 based controller
+#define BOARD_RUMBA32          1809   // RUMBA32 STM32F4 based controller
 
 //
 // ARM Cortex M7

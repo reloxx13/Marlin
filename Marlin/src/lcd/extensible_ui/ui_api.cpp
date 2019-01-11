@@ -451,7 +451,7 @@ namespace ExtUI {
 
     void setZOffset_mm(const float value) {
       const float diff = (value - getZOffset_mm()) / planner.steps_to_mm[Z_AXIS];
-      addZOffset_steps(diff > 0 ? ceil(diff) : floor(diff));
+      addZOffset_steps(diff > 0 ? CEIL(diff) : FLOOR(diff));
     }
 
     void addZOffset_steps(int16_t babystep_increment) {
@@ -635,14 +635,14 @@ namespace ExtUI {
       pos;
 
       card.getfilename_sorted(nr);
-      return card.filename && card.filename[0] != '\0';
+      return card.filename[0] != '\0';
     #else
       return false;
     #endif
   }
 
   const char* FileList::filename() {
-    return IFSD(card.longFilename && card.longFilename[0] ? card.longFilename : card.filename, "");
+    return IFSD(card.longFilename[0] ? card.longFilename : card.filename, "");
   }
 
   const char* FileList::shortFilename() {
