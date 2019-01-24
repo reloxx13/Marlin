@@ -169,6 +169,21 @@
 #ifndef MSG_COOLDOWN
   #define MSG_COOLDOWN                        _UxGT("Cooldown")
 #endif
+#ifndef MSG_LASER_MENU
+  #define MSG_LASER_MENU                      _UxGT("Laser Control")
+#endif
+#ifndef MSG_LASER_OFF
+  #define MSG_LASER_OFF                       _UxGT("Laser Off")
+#endif
+#ifndef MSG_LASER_ON
+  #define MSG_LASER_ON                        _UxGT("Laser On")
+#endif
+#ifndef MSG_LASER_POWER
+  #define MSG_LASER_POWER                     _UxGT("Laser power")
+#endif
+#ifndef MSG_SPINDLE_REVERSE
+  #define MSG_SPINDLE_REVERSE                 _UxGT("Spindle Reverse")
+#endif
 #ifndef MSG_SWITCH_PS_ON
   #define MSG_SWITCH_PS_ON                    _UxGT("Switch power on")
 #endif
@@ -809,6 +824,9 @@
 #endif
 #ifndef MSG_SINGLENOZZLE_RETRACT_SPD
   #define MSG_SINGLENOZZLE_RETRACT_SPD        _UxGT("Retract Speed")
+#endif
+#ifndef MSG_NOZZLE_STANDBY
+  #define MSG_NOZZLE_STANDBY                  _UxGT("Nozzle Standby")
 #endif
 #ifndef MSG_FILAMENTCHANGE
   #define MSG_FILAMENTCHANGE                  _UxGT("Change filament")
