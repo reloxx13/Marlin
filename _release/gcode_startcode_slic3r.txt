@@ -1,0 +1,19 @@
+; Ender 3 Custom Start G-code
+M140 S[first_layer_bed_temperature]       ; start heating bed
+M104 S[first_layer_temperature]     ; start heating extruder
+G28         					 ; home axis while heating
+M420 S1                          ; enable BL mesh
+G1 Z10 F3000                  ; Move Z Axis up little to prevent scratching of Heat Bed
+G1 X0.1 Y20 F5000.0         ; Move to start position
+M190 S[first_layer_bed_temperature]       ; wait for bed
+;G1 F1000 E-3                          ; retract to avoid oozing
+;G29                                   ; ABL not neccessery every print
+M109 S[first_layer_temperature]     ; wait for extruder
+G92 E0                           ; Reset Extruder
+G1 Z0.3 F3000                  ; Move to start position
+G1 X0.1 Y200.0 Z0.3 F1500.0 E15  ; Draw the first line
+G1 X0.4 Y200.0 Z0.3 F5000.0      ; Move to side a little
+G1 X0.4 Y20 Z0.3 F1500.0 E30     ; Draw the second line
+G92 E0                           ; Reset Extruder
+G1 Z3.0 F3000                    ; Move Z Axis up little to prevent scratching of Heat Bed
+; End of Custom Start G-codew
