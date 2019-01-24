@@ -465,9 +465,14 @@
   //#define DEFAULT_bedKd 305.4
 
   // Ender 3 - Hotbed 60°C - by Blinkii M303 E-1 C8 S60
-  #define DEFAULT_bedKp 633.72
-  #define DEFAULT_bedKi 108.95
-  #define DEFAULT_bedKd 921.51
+  //#define DEFAULT_bedKp 633.72
+  //#define DEFAULT_bedKi 108.95
+  //#define DEFAULT_bedKd 921.51
+
+  //reloxx M303 E-1 S60 C8
+  #define DEFAULT_bedKp 320.15
+  #define DEFAULT_bedKi 60.12
+  #define DEFAULT_bedKd 426.20
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from pidautotune
