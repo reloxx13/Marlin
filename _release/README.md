@@ -11,7 +11,7 @@ GPIO config avrdude
       miso	= 18;
     ;
 
-firmware.hex 20181220
+firmware
 - ABL support
 - No SD Card
 - LCD Corner Level
