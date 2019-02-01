@@ -1,0 +1,8 @@
+M190 S70 ;wait for heat
+M155 S30 ;lower temp reports for better accuracy while leveling
+G28 ;home
+G29 T ;ABL
+M500 ;save mesh
+M501 ;load mesh
+M155 S3 ;default temp report
+M140 S0 ;stop heating
