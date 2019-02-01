@@ -1,6 +1,6 @@
 I flash with my Pi3b+
 
-Used this guide and changed some Pins
+Used this guide and changed some Pins   
 https://www.fission3d.com/guides/flash-bootloader-and-install-firmware-with-raspberry-pi
 
 GPIO config avrdude
