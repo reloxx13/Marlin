@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
@@ -2076,6 +2076,10 @@ void MarlinSettings::reset(PORTARG_SOLO) {
       toolchange_settings.change_point = TOOLCHANGE_PARK_XY;
     #endif
     toolchange_settings.z_raise = TOOLCHANGE_ZRAISE;
+  #endif
+
+  #if ENABLED(MAGNETIC_PARKING_EXTRUDER)
+    mpe_settings_init();
   #endif
 
   //

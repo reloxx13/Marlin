@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
@@ -19,13 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 #pragma once
 
-#include "../../inc/MarlinConfig.h"
+// current value of the outputs provided over i2s
+extern uint32_t i2s_port_data;
 
-#if HAS_LCD_MENU && ENABLED(MMU2_MENUS)
-  extern void menu_mmu2();
-  extern void mmu2_M600();
-  extern uint8_t mmu2_chooseFilament();
-#endif
+int i2s_init();
+
+void i2s_write(uint8_t pin, uint8_t val);
+
+void i2s_push_sample();

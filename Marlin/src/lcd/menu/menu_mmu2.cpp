@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
@@ -24,9 +24,9 @@
 
 #if HAS_LCD_MENU && ENABLED(MMU2_MENUS)
 
-#include "mmu2.h"
-#include "mmu2_menu.h"
-#include "../../lcd/menu/menu.h"
+#include "../../feature/prusa_MMU2/mmu2.h"
+#include "menu_mmu2.h"
+#include "menu.h"
 
 uint8_t currentTool;
 bool mmuMenuWait;
