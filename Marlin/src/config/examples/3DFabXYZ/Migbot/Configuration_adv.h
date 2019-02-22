@@ -1541,7 +1541,7 @@
    * M906 - Set or get motor current in milliamps using axis codes X, Y, Z, E. Report values if no axis codes given.
    * M911 - Report stepper driver overtemperature pre-warn condition.
    * M912 - Clear stepper driver overtemperature pre-warn condition flag.
-   * M122 S0/1 - Report driver parameters (Requires TMC_DEBUG)
+   * M122 - Report driver parameters (Requires TMC_DEBUG)
    */
   //#define MONITOR_DRIVER_STATUS
 
@@ -1813,7 +1813,7 @@
  * Add the M240 G-code to take a photo.
  * The photo can be triggered by a digital pin or a physical movement.
  */
-//#define PHOTO_GCODE
+#define PHOTO_GCODE
 #if ENABLED(PHOTO_GCODE)
   // A position to move to (and raise Z) before taking the photo
   //#define PHOTO_POSITION { X_MAX_POS - 5, Y_MAX_POS, 0 }  // { xpos, ypos, zraise } (M240 X Y Z)
@@ -1822,17 +1822,17 @@
 
   // Canon RC-1 or homebrew digital camera trigger
   // Data from: http://www.doc-diy.net/photo/rc-1_hacked/
-  //#define PHOTOGRAPH_PIN 23
+  //#define PHOTOGRAPH_PIN 12
 
   // Canon Hack Development Kit
   // http://captain-slow.dk/2014/03/09/3d-printing-timelapses/
-  //#define CHDK_PIN        4
+  #define CHDK_PIN       12
 
   // Optional second move with delay to trigger the camera shutter
   //#define PHOTO_SWITCH_POSITION { X_MAX_POS, Y_MAX_POS }  // { xpos, ypos } (M240 I J)
 
   // Duration to hold the switch or keep CHDK_PIN high
-  //#define PHOTO_SWITCH_MS   50 // (ms) (M240 D)
+  #define PHOTO_SWITCH_MS   50 // (ms) (M240 D)
 #endif
 
 /**
