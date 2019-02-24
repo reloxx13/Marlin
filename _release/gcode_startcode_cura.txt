@@ -8,17 +8,17 @@ M205 S0 T0 ; sets the minimum extruding and travel feed rate, mm/sec
 M107
 
 M140 S{material_bed_temperature_layer_0}       ; start heating bed
-M104 S170     ; start heating extruder
-G28         	             ; home axis while heating
-M420 S1                          ; enable BL mesh
-G1 Z10 F3000                 ; Move Z Axis up little to prevent scratching of Heat Bed
-G1 X0.1 Y20 Z0.3 F5000.0         ; Move to start position
+M104 S160                               ; start preheating extruder but dont heat to melt temp to avoid oozing
+G28                                     ; home axis while heating
+M420 S1                                 ; enable BL mesh
+G1 Z12.40 F5000                        ; Move Z Axis up little to prevent scratching of Heat Bed
+G1 X0.1 Y10 Z0.3 F3000                           ; Move to start position
 M190 S{material_bed_temperature_layer_0}       ; wait for bed
 M104 S{material_print_temperature_layer_0}     ; start heating extruder
 M109 S{material_print_temperature_layer_0}     ; wait for extruder
-G92 E0                           ; Reset Extruder
-G1 X0.1 Y200.0 Z0.3 F1500.0 E15  ; Draw the first line
-G1 X0.4 Y200.0 Z0.3 F5000.0      ; Move to side a little
-G1 X0.4 Y20 Z0.3 F1500.0 E20     ; Draw the second line
-G92 E0                           ; Reset Extruder
+G92 E0                                  ; Reset Extruder
+G1 X0.1 Y140 Z0.3 F600 E20         ; Draw the first line slow
+G1 X0.1 Y180 Z0.3 F3000            ; fast wipe
+G92 E0                                  ; Reset Extruder
+G1 Y20 X10 Z12 F5000.0                           ; move away from line
 G1 Z30 F5000                    ; Move Z Axis up little to prevent scratching of Heat Bed
