@@ -920,7 +920,7 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_DEPLOY_PROBE    5 // Z Clearance for Deploy/Stow
 #define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
 #define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
@@ -1244,7 +1244,7 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-//#define LCD_BED_LEVELING
+#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.020 // (mm) Step size while manually probing Z axis.
@@ -1258,7 +1258,7 @@
 #if ENABLED(LEVEL_BED_CORNERS)
   #define LEVEL_CORNERS_INSET 30    // (mm) An inset for corner leveling
   #define LEVEL_CORNERS_Z_HOP  4.0  // (mm) Move nozzle up before moving between corners
-  #define LEVEL_CENTER_TOO        // Move to the center after the last corner
+  // #define LEVEL_CENTER_TOO        // Move to the center after the last corner
 #endif
 
 /**
@@ -1266,8 +1266,7 @@
  * Useful to retract or move the Z probe out of the way.
  */
 //#define Z_PROBE_END_SCRIPT "G1 Z10 F12000\nG1 X15 Y330\nG1 Z0.5\nG1 Z10"
-#define Z_PROBE_END_SCRIPT "G1 Z12.40 F12000\nG1 X73 Y40"
-
+#define Z_PROBE_END_SCRIPT "G1 Z10 F5000\nG1 X57 Y31.7 F5000"
 
 // @section homing
 
@@ -1294,8 +1293,8 @@
 #if ENABLED(Z_SAFE_HOMING)
   //#define Z_SAFE_HOMING_X_POINT ((X_BED_SIZE) / 2)    // X point for Z homing when homing all axes (G28).
   //#define Z_SAFE_HOMING_Y_POINT ((Y_BED_SIZE) / 2)    // Y point for Z homing when homing all axes (G28).
-  #define Z_SAFE_HOMING_X_POINT MIN_PROBE_EDGE
-  #define Z_SAFE_HOMING_Y_POINT MIN_PROBE_EDGE
+  #define Z_SAFE_HOMING_X_POINT 57
+  #define Z_SAFE_HOMING_Y_POINT 31.7
 #endif
 
 // Homing speeds (mm/m)
@@ -1433,7 +1432,8 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z }
-  #define NOZZLE_PARK_POINT { (X_MIN_POS + 50), (Y_MAX_POS - 50), 150 }
+  // #define NOZZLE_PARK_POINT { (X_MIN_POS + 50), (Y_MAX_POS - 50), 150 }
+  #define NOZZLE_PARK_POINT { (X_MIN_POS + 57), (Y_MAX_POS - 57), 150 }  
   #define NOZZLE_PARK_XY_FEEDRATE 100   // X and Y axes feedrate in mm/s (also used for delta printers Z axis)
   #define NOZZLE_PARK_Z_FEEDRATE 100      // Z axis feedrate in mm/s (not used for delta printers)
 #endif
