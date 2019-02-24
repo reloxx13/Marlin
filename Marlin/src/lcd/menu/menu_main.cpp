@@ -139,9 +139,7 @@ void menu_main() {
   ;
 
   if (busy) {
-    #if ENABLED(SDSUPPORT)
       MENU_ITEM(function, MSG_PAUSE_PRINT, lcd_pause);
-    #endif
     #if ENABLED(SDSUPPORT) || defined(ACTION_ON_CANCEL)
       MENU_ITEM(submenu, MSG_STOP_PRINT, menu_abort_confirm);
     #endif
