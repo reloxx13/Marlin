@@ -579,7 +579,7 @@
  * vibration and surface artifacts. The algorithm adapts to provide the best possible step smoothing at the
  * lowest stepping frequencies.
  */
-#define ADAPTIVE_STEP_SMOOTHING
+//#define ADAPTIVE_STEP_SMOOTHING //will cause "Move E" to reset fw https://github.com/MarlinFirmware/Marlin/issues/13213
 
 /**
  * Custom Microstepping
