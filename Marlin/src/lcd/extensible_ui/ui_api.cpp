@@ -51,8 +51,13 @@
 #include "../../module/planner.h"
 #include "../../module/probe.h"
 #include "../../module/temperature.h"
+#include "../../module/printcounter.h"
 #include "../../libs/duration_t.h"
 #include "../../HAL/shared/Delay.h"
+
+#if ENABLED(PRINTCOUNTER)
+  #include "../../core/utility.h"
+#endif
 
 #if DO_SWITCH_EXTRUDER || ENABLED(SWITCHING_NOZZLE) || ENABLED(PARKING_EXTRUDER)
   #include "../../module/tool_change.h"
@@ -67,11 +72,6 @@
   #define IFSD(A,B) (A)
 #else
   #define IFSD(A,B) (B)
-#endif
-
-#if ENABLED(PRINTCOUNTER)
-  #include "../../core/utility.h"
-  #include "../../module/printcounter.h"
 #endif
 
 #if HAS_TRINAMIC && HAS_LCD_MENU
@@ -688,7 +688,7 @@ namespace ExtUI {
 
   bool FileList::seek(const uint16_t pos, const bool skip_range_check) {
     #if ENABLED(SDSUPPORT)
-      if (!skip_range_check && pos > (count() - 1)) return false;
+      if (!skip_range_check && (pos + 1) > count()) return false;
       const uint16_t nr =
         #if ENABLED(SDCARD_RATHERRECENTFIRST) && DISABLED(SDCARD_SORT_ALPHA)
           count() - 1 -

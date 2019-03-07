@@ -1770,7 +1770,8 @@ static_assert(Y_MAX_LENGTH >= Y_BED_SIZE, "Movement bounds (Y_MIN_POS, Y_MAX_POS
   + ENABLED(SAV_3DGLCD) \
   + ENABLED(OLED_PANEL_TINYBOY2) \
   + ENABLED(ZONESTAR_LCD) \
-  + ENABLED(ULTI_CONTROLLER)
+  + ENABLED(ULTI_CONTROLLER) \
+  + ENABLED(EXTENSIBLE_UI)
   #error "Please select no more than one LCD controller option."
 #endif
 
@@ -1953,7 +1954,7 @@ constexpr float sanity_arr_1[] = DEFAULT_AXIS_STEPS_PER_UNIT,
                 sanity_arr_2[] = DEFAULT_MAX_FEEDRATE,
                 sanity_arr_3[] = DEFAULT_MAX_ACCELERATION;
 
-#define _ARR_TEST(N,I) (sanity_arr_##N[MIN(I,COUNT(sanity_arr_##N)-1)] > 0)
+#define _ARR_TEST(N,I) (sanity_arr_##N[MIN(I,int(COUNT(sanity_arr_##N))-1)] > 0)
 
 static_assert(COUNT(sanity_arr_1) >= XYZE, "DEFAULT_AXIS_STEPS_PER_UNIT requires X, Y, Z and E elements.");
 static_assert(COUNT(sanity_arr_1) <= XYZE_N, "DEFAULT_AXIS_STEPS_PER_UNIT has too many elements. (Did you forget to enable DISTINCT_E_FACTORS?)");

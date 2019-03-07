@@ -81,6 +81,10 @@
 
 Stepper stepper; // Singleton
 
+#if HAS_MOTOR_CURRENT_PWM
+  bool Stepper::initialized; // = false
+#endif
+
 #ifdef __AVR__
   #include "speed_lookuptable.h"
 #endif
@@ -1975,11 +1979,6 @@ bool Stepper::is_block_busy(const block_t* const block) {
 
 void Stepper::init() {
 
-  // Init Digipot Motor Current
-  #if HAS_DIGIPOTSS || HAS_MOTOR_CURRENT_PWM
-    digipot_init();
-  #endif
-
   #if MB(ALLIGATOR)
     const float motor_current[] = MOTOR_CURRENT;
     unsigned int digipot_motor = 0;
@@ -2161,6 +2160,13 @@ void Stepper::init() {
     | (INVERT_Z_DIR ? _BV(Z_AXIS) : 0);
 
   set_directions();
+
+  #if HAS_DIGIPOTSS || HAS_MOTOR_CURRENT_PWM
+    #if HAS_MOTOR_CURRENT_PWM
+      initialized = true;
+    #endif
+    digipot_init();
+  #endif
 }
 
 /**
@@ -2466,6 +2472,7 @@ void Stepper::report_positions() {
 #if HAS_MOTOR_CURRENT_PWM
 
   void Stepper::refresh_motor_power() {
+    if (!initialized) return;
     LOOP_L_N(i, COUNT(motor_current_setting)) {
       switch (i) {
         #if PIN_EXISTS(MOTOR_CURRENT_PWM_XY) || PIN_EXISTS(MOTOR_CURRENT_PWM_X) || PIN_EXISTS(MOTOR_CURRENT_PWM_Y)
@@ -2497,6 +2504,8 @@ void Stepper::report_positions() {
         digitalPotWrite(digipot_ch[driver], current);
 
       #elif HAS_MOTOR_CURRENT_PWM
+
+        if (!initialized) return;
 
         if (WITHIN(driver, 0, COUNT(motor_current_setting) - 1))
           motor_current_setting[driver] = current; // update motor_current_setting
