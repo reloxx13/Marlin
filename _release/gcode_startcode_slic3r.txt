@@ -11,7 +11,7 @@ M109 S[first_layer_temperature]         ; wait for extruder
 G92 E0                                  ; Reset Extruder
 G1 X0.1 Y120 Z0.3 F600 E20         ; Draw the first line slow
 G1 X0.1 Y160 Z0.3 F3000            ; fast wipe
-G1 F500 E15                 ; Retract filament 2 mm to prevent oozing
+G1 F800 E13                 ; Retract filament to prevent oozing
 G1 Y20 X10 Z12 F5000.0                           ; move away from line
 G92 E0                                  ; Reset Extruder
 ; End of Custom Start G-code
