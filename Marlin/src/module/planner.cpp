@@ -1264,6 +1264,7 @@ void Planner::check_axes_activity() {
     #endif
 
     #if ENABLED(FAN_SOFT_PWM)
+
       #if HAS_FAN0
         thermalManager.soft_pwm_amount_fan[0] = CALC_FAN_SPEED(0);
       #endif
@@ -1275,6 +1276,7 @@ void Planner::check_axes_activity() {
       #endif
 
     #elif ENABLED(FAST_PWM_FAN)
+
       #if HAS_FAN0
         thermalManager.set_pwm_duty(FAN_PIN, CALC_FAN_SPEED(0));
       #endif
@@ -1286,6 +1288,7 @@ void Planner::check_axes_activity() {
       #endif
 
     #else
+
       #if HAS_FAN0
         analogWrite(FAN_PIN, CALC_FAN_SPEED(0));
       #endif
@@ -1993,7 +1996,7 @@ bool Planner::_populate_block(block_t * const block, bool split_move,
           #endif // EXTRUDERS > 1
           enable_E0();
           g_uc_extruder_last_move[0] = (BLOCK_BUFFER_SIZE) * 2;
-          #if ENABLED(DUAL_X_CARRIAGE) || ENABLED(DUAL_NOZZLE_DUPLICATION_MODE)
+          #if HAS_DUPLICATION_MODE
             if (extruder_duplication_enabled) {
               enable_E1();
               g_uc_extruder_last_move[1] = (BLOCK_BUFFER_SIZE) * 2;
