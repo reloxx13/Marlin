@@ -458,9 +458,14 @@
   //#define DEFAULT_Kd 76.55
 
   //reloxx M303 C5 E0 S230 U
-  #define DEFAULT_Kp 20.05
-  #define DEFAULT_Ki 1.45
-  #define DEFAULT_Kd 69.41
+  //#define DEFAULT_Kp 20.05
+  //#define DEFAULT_Ki 1.45
+  //#define DEFAULT_Kd 69.41
+
+  //reloxx M303 C10 E0 S220 U
+  #define DEFAULT_Kp 22.06
+  #define DEFAULT_Ki 1.51
+  #define DEFAULT_Kd 80.42
 
   // Ultimaker
   //#define DEFAULT_Kp 22.2
@@ -524,9 +529,14 @@
   //#define DEFAULT_bedKd 921.51
 
   //reloxx M303 E-1 S60 C8
-  #define DEFAULT_bedKp 320.15
-  #define DEFAULT_bedKi 60.12
-  #define DEFAULT_bedKd 426.20
+  //#define DEFAULT_bedKp 320.15
+  //#define DEFAULT_bedKi 60.12
+  //#define DEFAULT_bedKd 426.20
+
+  //reloxx M303 E-1 S60 C10
+  #define DEFAULT_bedKp 336.03
+  #define DEFAULT_bedKi 64.09
+  #define DEFAULT_bedKd 440.45
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from pidautotune
