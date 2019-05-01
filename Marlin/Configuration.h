@@ -401,11 +401,11 @@
 //#define TEMP_SENSOR_1_AS_REDUNDANT
 #define MAX_REDUNDANT_TEMP_SENSOR_DIFF 10
 
-#define TEMP_RESIDENCY_TIME     10  // (seconds) Time to wait for hotend to "settle" in M109
+#define TEMP_RESIDENCY_TIME      5  // (seconds) Time to wait for hotend to "settle" in M109
 #define TEMP_WINDOW              1  // (°C) Temperature proximity for the "temperature reached" timer
 #define TEMP_HYSTERESIS          3  // (°C) Temperature proximity considered "close enough" to the target
 
-#define TEMP_BED_RESIDENCY_TIME 10  // (seconds) Time to wait for bed to "settle" in M190
+#define TEMP_BED_RESIDENCY_TIME  5  // (seconds) Time to wait for bed to "settle" in M190
 #define TEMP_BED_WINDOW          1  // (°C) Temperature proximity for the "temperature reached" timer
 #define TEMP_BED_HYSTERESIS      3  // (°C) Temperature proximity considered "close enough" to the target
 
@@ -457,15 +457,10 @@
   //#define DEFAULT_Ki 1.54
   //#define DEFAULT_Kd 76.55
 
-  //reloxx M303 C5 E0 S230 U
-  //#define DEFAULT_Kp 20.05
-  //#define DEFAULT_Ki 1.45
-  //#define DEFAULT_Kd 69.41
-
-  //reloxx M303 C10 E0 S220 U
-  #define DEFAULT_Kp 22.06
-  #define DEFAULT_Ki 1.51
-  #define DEFAULT_Kd 80.42
+  //reloxx M303 C10 E0 S220 U1
+  #define DEFAULT_Kp 22.35
+  #define DEFAULT_Ki 1.49
+  #define DEFAULT_Kd 83.76
 
   // Ultimaker
   //#define DEFAULT_Kp 22.2
@@ -523,20 +518,10 @@
   //#define DEFAULT_bedKi .023
   //#define DEFAULT_bedKd 305.4
 
-  // Ender 3 - Hotbed 60°C - by Blinkii M303 E-1 C8 S60
-  //#define DEFAULT_bedKp 633.72
-  //#define DEFAULT_bedKi 108.95
-  //#define DEFAULT_bedKd 921.51
-
-  //reloxx M303 E-1 S60 C8
-  //#define DEFAULT_bedKp 320.15
-  //#define DEFAULT_bedKi 60.12
-  //#define DEFAULT_bedKd 426.20
-
-  //reloxx M303 E-1 S60 C10
-  #define DEFAULT_bedKp 336.03
-  #define DEFAULT_bedKi 64.09
-  #define DEFAULT_bedKd 440.45
+  //reloxx M303 E-1 S60 C10 U1
+  #define DEFAULT_bedKp 341.52
+  #define DEFAULT_bedKi 66.18
+  #define DEFAULT_bedKd 440.60
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from pidautotune
@@ -759,7 +744,7 @@
 //
 #define JUNCTION_DEVIATION
 #if ENABLED(JUNCTION_DEVIATION)
-  #define JUNCTION_DEVIATION_MM 0.07  // (mm) Distance from real junction edge
+  #define JUNCTION_DEVIATION_MM 0.08  // (mm) Distance from real junction edge
 #endif
 
 /**
@@ -1030,7 +1015,7 @@
 
 //#define UNKNOWN_Z_NO_RAISE // Don't raise Z (lower the bed) if Z is "unknown." For beds that fall when Z is powered off.
 
-#define Z_HOMING_HEIGHT 15  // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
+#define Z_HOMING_HEIGHT 10  // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
                              // Be sure you have this distance over your Z_MAX_POS in case.
 
 // Direction of endstops when homing; 1=MAX, -1=MIN
@@ -1043,11 +1028,11 @@
 
 // The size of the print bed
 #define X_BED_SIZE 235
-#define Y_BED_SIZE 235 - 15 - 7 //y belt tensioner
+#define Y_BED_SIZE 235 - 15 //y belt tensioner
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS 0
-#define Y_MIN_POS -7 //home -7 of bed
+#define Y_MIN_POS 0 //reloxx13: home -7 of bed M206 Y-7
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE //+ 15 //right next the bed
 #define Y_MAX_POS Y_BED_SIZE
@@ -1302,7 +1287,7 @@
  * Useful to retract or move the Z probe out of the way.
  */
 //#define Z_PROBE_END_SCRIPT "G1 Z10 F12000\nG1 X15 Y330\nG1 Z0.5\nG1 Z10"
-#define Z_PROBE_END_SCRIPT "G1 Z10 F5000\nG1 X57 Y31.7 F5000"
+#define Z_PROBE_END_SCRIPT "G0 Z10 F500\nG0 X0 Y0 F5000"
 
 // @section homing
 
