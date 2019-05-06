@@ -23,7 +23,7 @@
 #include "../inc/MarlinConfigPre.h"
 
 // These displays all share the MarlinUI class
-#if HAS_SPI_LCD || EITHER(MALYAN_LCD, EXTENSIBLE_UI)
+#if HAS_SPI_LCD || ENABLED(EXTENSIBLE_UI)
   #include "ultralcd.h"
   #include "fontutils.h"
   MarlinUI ui;
@@ -746,6 +746,7 @@ void MarlinUI::update() {
 
       refresh();
       init_lcd(); // May revive the LCD if static electricity killed it
+
       ms = millis();
       next_lcd_update_ms = ms + LCD_UPDATE_INTERVAL;  // delay LCD update until after SD activity completes
     }
