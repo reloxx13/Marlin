@@ -244,6 +244,13 @@ typedef struct SettingsDataStruct {
   PID_t bedPID;                                         // M304 PID / M303 E-1 U
 
   //
+  // User-defined Thermistors
+  //
+  #if HAS_USER_THERMISTORS
+    user_thermistor_t user_thermistor[USER_THERMISTORS]; // M305 P0 R4700 T100000 B3950
+  #endif
+
+  //
   // HAS_LCD_CONTRAST
   //
   int16_t lcd_contrast;                                 // M250 C
@@ -394,9 +401,8 @@ void MarlinSettings::postprocess() {
     report_current_position();
 }
 
-#if ENABLED(PRINTCOUNTER) && ENABLED(EEPROM_SETTINGS)
+#if BOTH(PRINTCOUNTER, EEPROM_SETTINGS)
   #include "printcounter.h"
-
   static_assert(
     !WITHIN(STATS_EEPROM_ADDRESS, EEPROM_OFFSET, EEPROM_OFFSET + sizeof(SettingsData)) &&
     !WITHIN(STATS_EEPROM_ADDRESS + sizeof(printStatistics), EEPROM_OFFSET, EEPROM_OFFSET + sizeof(SettingsData)),
@@ -799,6 +805,16 @@ void MarlinSettings::postprocess() {
         EEPROM_WRITE(thermalManager.temp_bed.pid);
       #endif
     }
+
+    //
+    // User-defined Thermistors
+    //
+    #if HAS_USER_THERMISTORS
+    {
+      _FIELD_TEST(user_thermistor);
+      EEPROM_WRITE(thermalManager.user_thermistor);
+    }
+    #endif
 
     //
     // LCD Contrast
@@ -1580,6 +1596,16 @@ void MarlinSettings::postprocess() {
       }
 
       //
+      // User-defined Thermistors
+      //
+      #if HAS_USER_THERMISTORS
+      {
+        _FIELD_TEST(user_thermistor);
+        EEPROM_READ(thermalManager.user_thermistor);
+      }
+      #endif
+
+      //
       // LCD Contrast
       //
       {
@@ -2106,7 +2132,7 @@ void MarlinSettings::postprocess() {
       #endif
     }
 
-    void MarlinSettings::load_mesh(const int8_t slot, void * const into/*=NULL*/) {
+    void MarlinSettings::load_mesh(const int8_t slot, void * const into/*=nullptr*/) {
 
       #if ENABLED(AUTO_BED_LEVELING_UBL)
 
@@ -2387,6 +2413,14 @@ void MarlinSettings::reset() {
   #endif
 
   //
+  // User-Defined Thermistors
+  //
+
+  #if HAS_USER_THERMISTORS
+    thermalManager.reset_user_thermistors();
+  #endif
+
+  //
   // LCD Contrast
   //
 
@@ -2511,7 +2545,7 @@ void MarlinSettings::reset() {
   #if HAS_TRINAMIC
     inline void say_M906(const bool forReplay) { CONFIG_ECHO_START(); SERIAL_ECHOPGM("  M906"); }
     #if HAS_STEALTHCHOP
-      void say_M569(const char * const etc=NULL) {
+      void say_M569(const char * const etc=nullptr) {
         SERIAL_ECHOPGM("  M569 S1");
         if (etc) {
           SERIAL_CHAR(' ');
@@ -2950,6 +2984,12 @@ void MarlinSettings::reset() {
       #endif
 
     #endif // PIDTEMP || PIDTEMPBED
+
+    #if HAS_USER_THERMISTORS
+      CONFIG_ECHO_HEADING("User thermistors:");
+      for (uint8_t i = 0; i < USER_THERMISTORS; i++)
+        thermalManager.log_user_thermistor(i, true);
+    #endif
 
     #if HAS_LCD_CONTRAST
       CONFIG_ECHO_HEADING("LCD Contrast:");
