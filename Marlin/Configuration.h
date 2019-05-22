@@ -901,7 +901,7 @@
 
 // arms https://www.thingiverse.com/thing:3432489
 #define X_PROBE_OFFSET_FROM_EXTRUDER -27  // X offset: -left  +right  [of the nozzle]
-#define Y_PROBE_OFFSET_FROM_EXTRUDER -1.70  // Y offset: -front +behind [the nozzle]
+#define Y_PROBE_OFFSET_FROM_EXTRUDER -2 //sanity has to be integer, real are -1.70  // Y offset: -front +behind [the nozzle]
 #define Z_PROBE_OFFSET_FROM_EXTRUDER -1.62   // Z offset: -below +above  [the nozzle]
 
 // Certain types of probes need to stay away from edges
