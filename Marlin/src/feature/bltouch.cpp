@@ -49,7 +49,8 @@ void BLTouch::init() {
   #if ENABLED(BLTOUCH_FORCE_5V_MODE)
     _set_5V_mode();                          // Set 5V mode if explicitely demanded (V3 upwards)
   #endif
-  clear();
+  _reset();
+  _stow();
   // There really should be no alarm outstanding now, and no triggered condition. But if there is,
   // there is no need to worry people here on init right at the start of the printer.
 }
@@ -113,7 +114,7 @@ bool BLTouch::stow_proc() {
   // At the moment that we come in here, we might (pulse) or will (SW mode) see the trigger on the pin.
   // So even though we know a STOW will be ignored if an ALARM condition is active, we will STOW.
   // Note: If the probe is deployed AND in an ALARM condition, this STOW will not pull up the pin
-  // and the ALARM condition will still be there. --> ANTClabs should change this behaviour maybe
+  // and the ALARM condition will still be there. --> ANTClabs should change this behavior maybe
 
   // Attempt to STOW, wait for STOW_DELAY or ALARM
   if (_stow_query_alarm()) {
@@ -145,19 +146,16 @@ bool BLTouch::status_proc() {
   /**
    * Return a TRUE for "YES, it is DEPLOYED"
    * This function will ensure switch state is reset after execution
-   * This may change pin position in some scenarios, specifically
-   * if the pin has been triggered but not yet stowed.
    */
 
   if (DEBUGGING(LEVELING)) DEBUG_ECHOLN("BLTouch STATUS requested");
 
-  _set_SW_mode();
+  _set_SW_mode();              // Incidentally, _set_SW_mode() will also RESET any active alarm
   const bool tr = triggered(); // If triggered in SW mode, the pin is up, it is STOWED
 
   if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPAIR("BLTouch is ", (int)tr);
 
-  _reset();                         // turn off the SW Mode
-  if (tr) _stow(); else _deploy();  // and reset any triggered signal, restore state
+  if (tr) _stow(); else _deploy();  // Turn off SW mode, reset any trigger, honor pin state
   return !tr;
 }
 
