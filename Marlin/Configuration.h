@@ -894,7 +894,7 @@
  *      O-- FRONT --+
  *    (0,0)
  */
-//bullseye
+// bullseye
 // #define X_PROBE_OFFSET_FROM_EXTRUDER -43  // X offset: -left  +right  [of the nozzle]
 // #define Y_PROBE_OFFSET_FROM_EXTRUDER -10  // Y offset: -front +behind [the nozzle]
 // #define Z_PROBE_OFFSET_FROM_EXTRUDER -2.41   // Z offset: -below +above  [the nozzle]
