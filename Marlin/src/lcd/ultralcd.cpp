@@ -22,6 +22,10 @@
 
 #include "../inc/MarlinConfigPre.h"
 
+#ifdef LED_BACKLIGHT_TIMEOUT
+  #include "../feature/leds/leds.h"
+#endif
+
 // These displays all share the MarlinUI class
 #if HAS_DISPLAY
   #include "ultralcd.h"
@@ -100,7 +104,7 @@
   #endif
 #endif
 
-#if ENABLED(SDSUPPORT) && PIN_EXISTS(SD_DETECT)
+#if ENABLED(SDSUPPORT)
   uint8_t lcd_sd_status;
 #endif
 
@@ -196,20 +200,49 @@ millis_t next_button_update_ms;
 
   #endif
 
-  void _wrap_string(uint8_t &x, uint8_t &y, const char * const string, read_byte_cb_t cb_read_byte) {
+  void _wrap_string(uint8_t &x, uint8_t &y, const char * const string, read_byte_cb_t cb_read_byte, bool wordwrap/*=false*/) {
     SETCURSOR(x, y);
-    if (string) {
-      uint8_t *p = (uint8_t*)string;
+    if (!string) return;
+
+    auto _newline = [&x, &y]() {
+      x = 0; y++;               // move x to string len (plus space)
+      SETCURSOR(0, y);          // simulate carriage return
+    };
+
+    uint8_t *p = (uint8_t*)string;
+    wchar_t ch;
+    if (wordwrap) {
+      uint8_t *wrd = nullptr, c = 0;
+      // find the end of the part
       for (;;) {
-        wchar_t ch;
+        if (!wrd) wrd = p;            // Get word start /before/ advancing
+        p = get_utf8_value_cb(p, cb_read_byte, &ch);
+        const bool eol = !ch;         // zero ends the string
+        // End or a break between phrases?
+        if (eol || ch == ' ' || ch == '-' || ch == '+' || ch == '.') {
+          if (!c && ch == ' ') { if (wrd) wrd++; continue; } // collapse extra spaces
+          // Past the right and the word is not too long?
+          if (x + c > LCD_WIDTH && x >= (LCD_WIDTH) / 4) _newline(); // should it wrap?
+          c += !eol;                  // +1 so the space will be printed
+          x += c;                     // advance x to new position
+          while (c) {                 // character countdown
+            --c;                      // count down to zero
+            wrd = get_utf8_value_cb(wrd, cb_read_byte, &ch); // get characters again
+            lcd_put_wchar(ch);        // character to the LCD
+          }
+          if (eol) break;             // all done!
+          wrd = nullptr;              // set up for next word
+        }
+        else c++;                     // count word characters
+      }
+    }
+    else {
+      for (;;) {
         p = get_utf8_value_cb(p, cb_read_byte, &ch);
         if (!ch) break;
         lcd_put_wchar(ch);
         x++;
-        if (x >= LCD_WIDTH) {
-          x = 0; y++;
-          SETCURSOR(0, y);
-        }
+        if (x >= LCD_WIDTH) _newline();
       }
     }
   }
@@ -221,7 +254,7 @@ millis_t next_button_update_ms;
       x = (LCD_WIDTH - plen - slen) / 2;
       y = LCD_HEIGHT > 3 ? 1 : 0;
     }
-    wrap_string_P(x, y, pref);
+    wrap_string_P(x, y, pref, true);
     if (string) {
       if (x) { x = 0; y++; } // Move to the start of the next line
       wrap_string(x, y, string);
@@ -282,8 +315,10 @@ void MarlinUI::init() {
 
   #endif // HAS_SHIFT_ENCODER
 
-  #if ENABLED(SDSUPPORT) && PIN_EXISTS(SD_DETECT)
-    SET_INPUT_PULLUP(SD_DETECT_PIN);
+  #if ENABLED(SDSUPPORT)
+    #if PIN_EXISTS(SD_DETECT)
+      SET_INPUT_PULLUP(SD_DETECT_PIN);
+    #endif
     lcd_sd_status = 2; // UNKNOWN
   #endif
 
@@ -534,6 +569,16 @@ void MarlinUI::status_screen() {
 void MarlinUI::kill_screen(PGM_P lcd_msg) {
   init();
   set_alert_status_P(lcd_msg);
+
+  // RED ALERT. RED ALERT.
+  #ifdef LED_BACKLIGHT_TIMEOUT
+    leds.set_color(LEDColorRed());
+    #ifdef NEOPIXEL_BKGD_LED_INDEX
+      pixels.setPixelColor(NEOPIXEL_BKGD_LED_INDEX, 255, 0, 0, 0);
+      pixels.show();
+    #endif
+  #endif
+
   draw_kill_screen();
 }
 
@@ -685,6 +730,10 @@ void MarlinUI::update() {
   static millis_t next_lcd_update_ms;
   millis_t ms = millis();
 
+  #ifdef LED_BACKLIGHT_TIMEOUT
+    leds.update_timeout(powersupply_on);
+  #endif
+
   #if HAS_LCD_MENU
 
     #if LCD_TIMEOUT_TO_STATUS
@@ -719,7 +768,7 @@ void MarlinUI::update() {
 
   #endif // HAS_LCD_MENU
 
-  #if ENABLED(SDSUPPORT) && PIN_EXISTS(SD_DETECT)
+  #if ENABLED(SDSUPPORT)
 
     const uint8_t sd_status = (uint8_t)IS_SD_INSERTED();
     if (sd_status != lcd_sd_status && detected()) {
@@ -735,22 +784,30 @@ void MarlinUI::update() {
         else
           set_status_P(PSTR(MSG_SD_INSERTED));
       }
-      else {
-        card.release();
-        if (old_sd_status != 2) {
-          set_status_P(PSTR(MSG_SD_REMOVED));
-          if (!on_status_screen()) return_to_status();
+      #if PIN_EXISTS(SD_DETECT)
+        else {
+          card.release();
+          if (old_sd_status != 2) {
+            set_status_P(PSTR(MSG_SD_REMOVED));
+            if (!on_status_screen()) return_to_status();
+          }
         }
-      }
+
+        init_lcd(); // May revive the LCD if static electricity killed it
+
+      #endif
 
       refresh();
-      init_lcd(); // May revive the LCD if static electricity killed it
 
       ms = millis();
       next_lcd_update_ms = ms + LCD_UPDATE_INTERVAL;  // delay LCD update until after SD activity completes
+
+      #ifdef LED_BACKLIGHT_TIMEOUT
+        leds.reset_timeout(ms);
+      #endif
     }
 
-  #endif // SDSUPPORT && SD_DETECT_PIN
+  #endif // SDSUPPORT
 
   if (ELAPSED(ms, next_lcd_update_ms)
     #if HAS_GRAPHICAL_LCD
@@ -822,10 +879,16 @@ void MarlinUI::update() {
           encoderPosition += (encoderDiff * encoderMultiplier) / (ENCODER_PULSES_PER_STEP);
           encoderDiff = 0;
         }
+
         #if HAS_LCD_MENU && LCD_TIMEOUT_TO_STATUS
           return_to_status_ms = ms + LCD_TIMEOUT_TO_STATUS;
         #endif
+
         refresh(LCDVIEW_REDRAW_NOW);
+
+        #ifdef LED_BACKLIGHT_TIMEOUT
+          leds.reset_timeout(ms);
+        #endif
       }
 
     #endif
