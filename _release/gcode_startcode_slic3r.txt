@@ -1,17 +1,25 @@
 ; Ender 3 Custom Start G-code
 M140 S[first_layer_bed_temperature]     ; start heating bed
-M104 S160                               ; start preheating extruder but dont heat to melt temp to avoid oozing
-G28                                     ; home axis while heating
+M104 S140                               ; start preheating extruder but dont heat to melt temp to avoid oozing
+
+G28                                    ; home axis while heating
 M420 S1                                 ; enable BL mesh
-G1 Z12.40 F5000                        ; Move Z Axis up little to prevent scratching of Heat Bed
-G1 X0.1 Y10 Z0.3 F3000                           ; Move to start position
-M104 S[first_layer_temperature]         ; start heating extruder to print temp now
+
+G92 E0 ; reset extruder 
+G1 Z5.0 F3000 ; move z up little to prevent scratching of surface 
+G1 X1 Y20 Z5.3 F5000.0 ; move to start-line position 
+
+M104 S170                               ; start preheating extruder but dont heat to melt temp to avoid oozing
 M190 S[first_layer_bed_temperature]     ; wait for bed
+M104 S[first_layer_temperature]         ; start heating extruder to print temp now
 M109 S[first_layer_temperature]         ; wait for extruder
-G92 E0                                  ; Reset Extruder
-G1 X0.1 Y120 Z0.3 F600 E20         ; Draw the first line slow
-G1 X0.1 Y160 Z0.3 F3000            ; fast wipe
-G1 F800 E13                 ; Retract filament to prevent oozing
-G1 Y20 X10 Z12 F5000.0                           ; move away from line
-G92 E0                                  ; Reset Extruder
+
+G1 Z0.3 F600
+M400
+G1 X0.1 Y200.0 Z0.3 F1500.0 E14 ; draw 1st line 
+G1 X1 Y200.0 Z0.3 F5000.0 ; move to side a little 
+G1 X1 Y20 Z0.3 F1500.0 E25 ; draw 2nd line 
+
+G92 E0 ; reset extruder
+
 ; End of Custom Start G-code
