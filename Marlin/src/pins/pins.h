@@ -350,6 +350,8 @@
   #include "pins_BIQU_B300_V1.0.h"      // LPC1768                                    env:LPC1768
 #elif MB(BIGTREE_SKR_V1_3)
   #include "pins_BIGTREE_SKR_V1.3.h"    // LPC1768                                    env:LPC1768
+#elif MB(TH3D_EZBOARD)
+  #include "pins_TH3D_EZBOARD.h"        // LPC1768                                    env:LPC1768
 
 //
 // Other 32-bit Boards
@@ -422,6 +424,8 @@
   #include "pins_STM3R_MINI.h"        // STM32F1                                    env:STM32F1
 #elif MB(BIGTREE_SKR_MINI_V1_1)
   #include "pins_BIGTREE_SKR_MINI_V1_1.h" // STM32F1                                env:BIGTREE_SKR_MINI
+#elif MB(BIGTREE_SKR_MINI_E3)
+  #include "pins_BIGTREE_SKR_MINI_E3.h" // STM32F1                                  env:BIGTREE_SKR_MINI
 #elif MB(MALYAN_M200)
   #include "pins_MALYAN_M200.h"       // STM32F1                                    env:malyanm200
 #elif MB(CHITU3D)
@@ -660,6 +664,7 @@
 #ifndef FAN_PIN
   #define FAN_PIN -1
 #endif
+#define FAN0_PIN FAN_PIN
 #ifndef FAN1_PIN
   #define FAN1_PIN -1
 #endif
@@ -815,6 +820,10 @@
     #define X_MIN_PIN -1
     #define X_MAX_PIN X_STOP_PIN
   #endif
+#elif X_HOME_DIR < 0
+  #define X_STOP_PIN X_MIN_PIN
+#else
+  #define X_STOP_PIN X_MAX_PIN
 #endif
 
 #ifdef Y_STOP_PIN
@@ -825,6 +834,10 @@
     #define Y_MIN_PIN -1
     #define Y_MAX_PIN Y_STOP_PIN
   #endif
+#elif Y_HOME_DIR < 0
+  #define Y_STOP_PIN Y_MIN_PIN
+#else
+  #define Y_STOP_PIN Y_MAX_PIN
 #endif
 
 #ifdef Z_STOP_PIN
@@ -835,6 +848,10 @@
     #define Z_MIN_PIN -1
     #define Z_MAX_PIN Z_STOP_PIN
   #endif
+#elif Z_HOME_DIR < 0
+  #define Z_STOP_PIN Z_MIN_PIN
+#else
+  #define Z_STOP_PIN Z_MAX_PIN
 #endif
 
 //

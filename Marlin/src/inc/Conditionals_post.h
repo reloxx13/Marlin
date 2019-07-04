@@ -920,13 +920,13 @@
 #endif
 
 // Endstops and bed probe
-#define HAS_STOP_TEST(A,M) (PIN_EXISTS(A##_##M) && !IS_X2_ENDSTOP(A,M) && !IS_Y2_ENDSTOP(A,M) && !IS_Z2_OR_PROBE(A,M))
-#define HAS_X_MIN HAS_STOP_TEST(X,MIN)
-#define HAS_X_MAX HAS_STOP_TEST(X,MAX)
-#define HAS_Y_MIN HAS_STOP_TEST(Y,MIN)
-#define HAS_Y_MAX HAS_STOP_TEST(Y,MAX)
-#define HAS_Z_MIN HAS_STOP_TEST(Z,MIN)
-#define HAS_Z_MAX HAS_STOP_TEST(Z,MAX)
+#define _HAS_STOP(A,M) (PIN_EXISTS(A##_##M) && !IS_X2_ENDSTOP(A,M) && !IS_Y2_ENDSTOP(A,M) && !IS_Z2_OR_PROBE(A,M))
+#define HAS_X_MIN _HAS_STOP(X,MIN)
+#define HAS_X_MAX _HAS_STOP(X,MAX)
+#define HAS_Y_MIN _HAS_STOP(Y,MIN)
+#define HAS_Y_MAX _HAS_STOP(Y,MAX)
+#define HAS_Z_MIN _HAS_STOP(Z,MIN)
+#define HAS_Z_MAX _HAS_STOP(Z,MAX)
 #define HAS_X2_MIN (PIN_EXISTS(X2_MIN))
 #define HAS_X2_MAX (PIN_EXISTS(X2_MAX))
 #define HAS_Y2_MIN (PIN_EXISTS(Y2_MIN))
@@ -1193,17 +1193,9 @@
   #define FAN_COUNT 0
 #endif
 
-#if HAS_FAN0
-  #define WRITE_FAN(v) WRITE(FAN_PIN, (v) ^ FAN_INVERTING)
-  #define WRITE_FAN0(v) WRITE_FAN(v)
+#if FAN_COUNT > 0
+  #define WRITE_FAN(n, v) WRITE(FAN##n##_PIN, (v) ^ FAN_INVERTING)
 #endif
-#if HAS_FAN1
-  #define WRITE_FAN1(v) WRITE(FAN1_PIN, (v) ^ FAN_INVERTING)
-#endif
-#if HAS_FAN2
-  #define WRITE_FAN2(v) WRITE(FAN2_PIN, (v) ^ FAN_INVERTING)
-#endif
-#define WRITE_FAN_N(n, v) WRITE_FAN##n(v)
 
 /**
  * Part Cooling fan multipliexer
