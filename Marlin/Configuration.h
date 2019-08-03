@@ -479,11 +479,14 @@
   //#define DEFAULT_Kd 76.55
 
   //reloxx M303 C10 E0 S220 U1
-  #define DEFAULT_Kp 22.35
-  #define DEFAULT_Ki 1.49
-  #define DEFAULT_Kd 83.76
+  //#define DEFAULT_Kp 22.35
+  //#define DEFAULT_Ki 1.49
+  //#define DEFAULT_Kd 83.76
 
-//TODO: ADD SKR
+  //reloxx SKR mini e3 M303 C10 E0 S220 U1
+  #define DEFAULT_Kp 16.92
+  #define DEFAULT_Ki 0.99
+  #define DEFAULT_Kd 72.22
 
   // Ultimaker
   //#define DEFAULT_Kp 22.2
@@ -542,9 +545,14 @@
   //#define DEFAULT_bedKd 305.4
 
   //reloxx M303 E-1 S60 C10 U1
-  #define DEFAULT_bedKp 341.52
-  #define DEFAULT_bedKi 66.18
-  #define DEFAULT_bedKd 440.60
+  //#define DEFAULT_bedKp 341.52
+  //#define DEFAULT_bedKi 66.18
+  //#define DEFAULT_bedKd 440.60
+
+  //reloxx13 skr mini e3 M303 E-1 S60 C10 U1
+  #define DEFAULT_bedKp 29.46
+  #define DEFAULT_bedKi 5.65
+  #define DEFAULT_bedKd 102.33
 
 //TODO: ADD SKR
 
@@ -735,7 +743,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4[, E5]]]]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 93 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 96 }
 
 /**
  * Default Max Feed Rate (mm/s)
