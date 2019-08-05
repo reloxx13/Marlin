@@ -484,9 +484,9 @@
   //#define DEFAULT_Kd 83.76
 
   //reloxx SKR mini e3 M303 C10 E0 S220 U1
-  #define DEFAULT_Kp 16.92
-  #define DEFAULT_Ki 0.99
-  #define DEFAULT_Kd 72.22
+  #define DEFAULT_Kp 16.05
+  #define DEFAULT_Ki 0.89
+  #define DEFAULT_Kd 72.05
 
   // Ultimaker
   //#define DEFAULT_Kp 22.2
@@ -550,9 +550,9 @@
   //#define DEFAULT_bedKd 440.60
 
   //reloxx13 skr mini e3 M303 E-1 S60 C10 U1
-  #define DEFAULT_bedKp 29.46
-  #define DEFAULT_bedKi 5.65
-  #define DEFAULT_bedKd 102.33
+  #define DEFAULT_bedKp 39.63
+  #define DEFAULT_bedKi 6.68
+  #define DEFAULT_bedKd 156.73
 
 //TODO: ADD SKR
 
