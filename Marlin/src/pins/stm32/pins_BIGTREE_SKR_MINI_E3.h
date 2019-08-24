@@ -34,7 +34,7 @@
 //TODO: disable if USB is fixed!
 // https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3-/issues/2
 // Ignore temp readings during development.
-#define BOGUS_TEMPERATURE_GRACE_PERIOD 2000
+//#define BOGUS_TEMPERATURE_GRACE_PERIOD 2000
 
 #define FLASH_EEPROM_EMULATION
 #define EEPROM_PAGE_SIZE     uint16(0x800) // 2KB
