@@ -133,7 +133,7 @@
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "Ender 3 SKR v1.5.3"
+#define CUSTOM_MACHINE_NAME "Ender 3 SKR v1.5.5"
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like http://www.uuidgenerator.net/version4
@@ -483,9 +483,9 @@
   //#define DEFAULT_Kd 83.76
 
   //reloxx SKR mini e3 M303 C10 E0 S220 U1
-  #define DEFAULT_Kp 16.05
-  #define DEFAULT_Ki 0.89
-  #define DEFAULT_Kd 72.05
+  #define DEFAULT_Kp 16.96
+  #define DEFAULT_Ki 0.90
+  #define DEFAULT_Kd 79.86
 
   // Ultimaker
   //#define DEFAULT_Kp 22.2
@@ -549,9 +549,9 @@
   //#define DEFAULT_bedKd 440.60
 
   //reloxx13 skr mini e3 M303 E-1 S60 C10 U1
-  #define DEFAULT_bedKp 39.63
-  #define DEFAULT_bedKi 6.68
-  #define DEFAULT_bedKd 156.73
+  #define DEFAULT_bedKp 37.29
+  #define DEFAULT_bedKi 7.27
+  #define DEFAULT_bedKd 127.57
 
 //TODO: ADD SKR
 
