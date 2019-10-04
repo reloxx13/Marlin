@@ -42,7 +42,7 @@
   #define STM32_FLASH_SIZE (256 * 1024)
 #endif
 
-#define FLASH_EEPROM_EMULATION
+//#define FLASH_EEPROM_EMULATION  //reloxx13: disable bugged eeprom emulation https://github.com/MarlinFirmware/Marlin/issues/14684
 #define EEPROM_PAGE_SIZE     uint16(0x800) // 2KB
 #define EEPROM_START_ADDRESS uint32(0x8000000 + STM32_FLASH_SIZE - 2 * EEPROM_PAGE_SIZE)
 #undef E2END
