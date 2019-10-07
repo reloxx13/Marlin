@@ -573,7 +573,7 @@
    * Use the option below to force an eeprom write to a V3.1 probe regardless.
    * Will be ignored by < 3.x BLTouches
    */
-  #define BLTOUCH_SET_5V_MODE
+  //#define BLTOUCH_SET_5V_MODE
 
   /**
    * Safety: Activate if connecting a probe with an unknown voltage mode.
