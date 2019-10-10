@@ -119,6 +119,7 @@ tags
 .pio*
 .pioenvs
 .piolibdeps
+.cache
 .clang_complete
 .gcc-flags.json
 /lib/
