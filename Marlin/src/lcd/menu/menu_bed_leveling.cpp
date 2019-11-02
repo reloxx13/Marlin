@@ -195,7 +195,7 @@
     ui.defer_status_screen();
     set_all_unhomed();
     ui.goto_screen(_lcd_level_bed_homing);
-    queue.inject_P(PSTR("G28"));
+    queue.inject_P(G28_STR);
   }
 
 #endif // PROBE_MANUALLY || MESH_BED_LEVELING
@@ -241,7 +241,7 @@ void menu_bed_leveling() {
 
   // Auto Home if not using manual probing
   #if NONE(PROBE_MANUALLY, MESH_BED_LEVELING)
-    if (!is_homed) GCODES_ITEM(MSG_AUTO_HOME, PSTR("G28"));
+    if (!is_homed) GCODES_ITEM(MSG_AUTO_HOME, G28_STR);
   #endif
 
   // Level Bed
@@ -268,7 +268,7 @@ void menu_bed_leveling() {
   #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)
     // Shadow for editing the fade height
     editable.decimal = planner.z_fade_height;
-    EDIT_ITEM_FAST(float3, MSG_Z_FADE_HEIGHT, &editable.decimal, 0, 100, [](){ set_z_fade_height(editable.decimal); });
+    EDIT_ITEM_FAST(float3, MSG_Z_FADE_HEIGHT, &editable.decimal, 0, 100, []{ set_z_fade_height(editable.decimal); });
   #endif
 
   //
