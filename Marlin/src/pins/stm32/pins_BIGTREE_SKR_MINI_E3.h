@@ -22,7 +22,7 @@
 #pragma once
 
 #ifndef TARGET_STM32F1
-  #error "Oops! Select an STM32F1 board in 'Tools > Board.'"
+#error "Oops! Select an STM32F1 board in 'Tools > Board.'"
 #endif
 
 #define BOARD_INFO_NAME "BIGTREE SKR Mini E3"
@@ -34,91 +34,91 @@
 //#define BOGUS_TEMPERATURE_GRACE_PERIOD 2000
 
 #ifdef MCU_STM32F103RE
-  #define STM32_FLASH_SIZE (512 * 1024)
+#define STM32_FLASH_SIZE (512 * 1024)
 #else
-  #define STM32_FLASH_SIZE (256 * 1024)
+#define STM32_FLASH_SIZE (256 * 1024)
 #endif
 
-#define FLASH_EEPROM_EMULATION
-#define EEPROM_PAGE_SIZE     uint16(0x800) // 2KB
+//#define FLASH_EEPROM_EMULATION
+#define EEPROM_PAGE_SIZE uint16(0x800) // 2KB
 #define EEPROM_START_ADDRESS uint32(0x8000000 + STM32_FLASH_SIZE - 2 * EEPROM_PAGE_SIZE)
 #undef E2END
-#define E2END                (EEPROM_PAGE_SIZE - 1) // 2KB
+#define E2END (EEPROM_PAGE_SIZE - 1) // 2KB
 
 //
 // Servos
 //
-#define SERVO0_PIN         PA1
+#define SERVO0_PIN PA1
 
 //
 // Limit Switches
 //
-#define X_STOP_PIN         PC0
-#define Y_STOP_PIN         PC1
-#define Z_STOP_PIN         PC2
+#define X_STOP_PIN PC0
+#define Y_STOP_PIN PC1
+#define Z_STOP_PIN PC2
 
 //
 // Z Probe must be this pins
 //
-#define Z_MIN_PROBE_PIN    PC14
+#define Z_MIN_PROBE_PIN PC14
 
 //
 // Filament Runout Sensor
 //
 #ifndef FIL_RUNOUT_PIN
-  #define FIL_RUNOUT_PIN   PC15
+#define FIL_RUNOUT_PIN PC15
 #endif
 
 //
 // Steppers
 //
-#define X_ENABLE_PIN       PB14
-#define X_STEP_PIN         PB13
-#define X_DIR_PIN          PB12
+#define X_ENABLE_PIN PB14
+#define X_STEP_PIN PB13
+#define X_DIR_PIN PB12
 
-#define Y_ENABLE_PIN       PB11
-#define Y_STEP_PIN         PB10
-#define Y_DIR_PIN          PB2
+#define Y_ENABLE_PIN PB11
+#define Y_STEP_PIN PB10
+#define Y_DIR_PIN PB2
 
-#define Z_ENABLE_PIN       PB1
-#define Z_STEP_PIN         PB0
-#define Z_DIR_PIN          PC5
+#define Z_ENABLE_PIN PB1
+#define Z_STEP_PIN PB0
+#define Z_DIR_PIN PC5
 
-#define E0_ENABLE_PIN      PD2
-#define E0_STEP_PIN        PB3
-#define E0_DIR_PIN         PB4
+#define E0_ENABLE_PIN PD2
+#define E0_STEP_PIN PB3
+#define E0_DIR_PIN PB4
 
 #if HAS_DRIVER(TMC2209)
-  /**
+/**
    * TMC2209 stepper drivers
    * Hardware serial communication ports.
    */
-  #define X_HARDWARE_SERIAL  Serial4
-  #define Y_HARDWARE_SERIAL  Serial4
-  #define Z_HARDWARE_SERIAL  Serial4
-  #define E0_HARDWARE_SERIAL Serial4
+#define X_HARDWARE_SERIAL Serial4
+#define Y_HARDWARE_SERIAL Serial4
+#define Z_HARDWARE_SERIAL Serial4
+#define E0_HARDWARE_SERIAL Serial4
 #endif
 
 //
 // Temperature Sensors
 //
-#define TEMP_0_PIN         PA0   // Analog Input
-#define TEMP_BED_PIN       PC3   // Analog Input
+#define TEMP_0_PIN PA0   // Analog Input
+#define TEMP_BED_PIN PC3 // Analog Input
 
 //
 // Heaters / Fans
 //
-#define HEATER_0_PIN       PC8   // EXTRUDER
-#define HEATER_BED_PIN     PC9   // BED
-#define FAN_PIN            PA8
+#define HEATER_0_PIN PC8   // EXTRUDER
+#define HEATER_BED_PIN PC9 // BED
+#define FAN_PIN PA8
 
 //
 // USB connect control
 //
-#define USB_CONNECT_PIN    PC13
+#define USB_CONNECT_PIN PC13
 #define USB_CONNECT_INVERTING false
 
-#define SD_DETECT_PIN      PC4
+#define SD_DETECT_PIN PC4
 
 /**
  *                 _____
@@ -131,21 +131,21 @@
  *                 EXP1
  */
 #if HAS_SPI_LCD
-  #define BEEPER_PIN       PB5
-  #define BTN_ENC          PB6
+#define BEEPER_PIN PB5
+#define BTN_ENC PB6
 
-  #if ENABLED(CR10_STOCKDISPLAY)
-    #define LCD_PINS_RS    PB8
+#if ENABLED(CR10_STOCKDISPLAY)
+#define LCD_PINS_RS PB8
 
-    #define BTN_EN1        PA9
-    #define BTN_EN2        PA10
+#define BTN_EN1 PA9
+#define BTN_EN2 PA10
 
-    #define LCD_PINS_ENABLE PB7
-    #define LCD_PINS_D4    PB9
+#define LCD_PINS_ENABLE PB7
+#define LCD_PINS_D4 PB9
 
-  #else
-    #error "Only CR10_STOCKDISPLAY is currently supported on the BIGTREE_SKR_MINI_E3."
-  #endif
+#else
+#error "Only CR10_STOCKDISPLAY is currently supported on the BIGTREE_SKR_MINI_E3."
+#endif
 
 #endif // HAS_SPI_LCD
 
@@ -155,8 +155,8 @@
 #define HAS_ONBOARD_SD
 
 #ifndef SDCARD_CONNECTION
-  #define SDCARD_CONNECTION ONBOARD
+#define SDCARD_CONNECTION ONBOARD
 #endif
 
-#define ON_BOARD_SPI_DEVICE 1    //SPI1
-#define ONBOARD_SD_CS_PIN  PA4   // Chip select for "System" SD card
+#define ON_BOARD_SPI_DEVICE 1 //SPI1
+#define ONBOARD_SD_CS_PIN PA4 // Chip select for "System" SD card
