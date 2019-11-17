@@ -33,7 +33,7 @@
 // Ignore temp readings during development.
 //#define BOGUS_TEMPERATURE_GRACE_PERIOD 2000
 
-#define FLASH_EEPROM_EMULATION
+//#define FLASH_EEPROM_EMULATION
 #define EEPROM_PAGE_SIZE     uint16(0x800) // 2KB
 #define EEPROM_START_ADDRESS uint32(0x8000000 + (STM32_FLASH_SIZE) * 1024 - 2 * EEPROM_PAGE_SIZE)
 #undef E2END
