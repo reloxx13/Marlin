@@ -483,9 +483,9 @@
   //#define DEFAULT_Kd 83.76
 
   //reloxx SKR mini e3 M303 C10 E0 S220 U1
-  #define DEFAULT_Kp 16.96
-  #define DEFAULT_Ki 0.90
-  #define DEFAULT_Kd 79.86
+  #define DEFAULT_Kp 17.56
+  #define DEFAULT_Ki 1.07
+  #define DEFAULT_Kd 72.16
 
   // Ultimaker
   //#define DEFAULT_Kp 22.2
@@ -549,11 +549,9 @@
   //#define DEFAULT_bedKd 440.60
 
   //reloxx13 skr mini e3 M303 E-1 S60 C10 U1
-  #define DEFAULT_bedKp 37.29
-  #define DEFAULT_bedKi 7.27
-  #define DEFAULT_bedKd 127.57
-
-//TODO: ADD SKR
+  #define DEFAULT_bedKp 52.40
+  #define DEFAULT_bedKi 9.47
+  #define DEFAULT_bedKd 193.24
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from pidautotune
@@ -948,7 +946,7 @@
  */
 
 // arms https://www.thingiverse.com/thing:3432489x
-#define NOZZLE_TO_PROBE_OFFSET { -27, -2, -1.88 }
+#define NOZZLE_TO_PROBE_OFFSET { -27, -2, -1.79 }
 
 // Certain types of probes need to stay away from edges
 #define MIN_PROBE_EDGE 30
@@ -1190,9 +1188,9 @@
  *   With an LCD controller the process is guided step-by-step.
  */
 //#define AUTO_BED_LEVELING_3POINT
-//#define AUTO_BED_LEVELING_LINEAR
+#define AUTO_BED_LEVELING_LINEAR
 //#define AUTO_BED_LEVELING_BILINEAR
-#define AUTO_BED_LEVELING_UBL
+//#define AUTO_BED_LEVELING_UBL
 //#define MESH_BED_LEVELING
 
 /**
