@@ -130,11 +130,11 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_BIGTREE_SKR_MINI_E3
+  #define MOTHERBOARD BOARD_BTT_SKR_MINI_E3_V1_0
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "Ender 3 SKR v1.7.8"
+#define CUSTOM_MACHINE_NAME "Ender 3 SKR v1.7.9"
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like http://www.uuidgenerator.net/version4
