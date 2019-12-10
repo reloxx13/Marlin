@@ -948,7 +948,7 @@
  */
 
 // arms https://www.thingiverse.com/thing:3432489x
-#define NOZZLE_TO_PROBE_OFFSET { -27, -2, -1.85 }
+#define NOZZLE_TO_PROBE_OFFSET { -27, -2, -1.82 }
 
 // Certain types of probes need to stay away from edges
 #define MIN_PROBE_EDGE 30
