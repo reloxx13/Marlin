@@ -954,9 +954,10 @@
  */
 
 // arms https://www.thingiverse.com/thing:3432489x
-#define NOZZLE_TO_PROBE_OFFSET { -27, -2, -1.82 }
+#define NOZZLE_TO_PROBE_OFFSET { -27, -2, -1.59 }
 
-// Certain types of probes need to stay away from edges
+// Most probes should stay away from the edges of the bed, but
+// with NOZZLE_AS_PROBE this can be negative for a wider probing area.
 #define MIN_PROBE_EDGE 30
 
 // X and Y axis travel speed (mm/m) between probes
