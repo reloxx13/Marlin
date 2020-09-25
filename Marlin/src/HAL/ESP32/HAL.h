@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 #pragma once
 
@@ -33,8 +33,6 @@
 #include "fastio.h"
 #include "watchdog.h"
 #include "i2s.h"
-
-#include "timers.h"
 
 #if ENABLED(WIFISUPPORT)
   #include "WebSocketSerial.h"
@@ -60,9 +58,6 @@ extern portMUX_TYPE spinlock;
   #else
     #define MYSERIAL1 webSocketSerial
   #endif
-  #define NUM_SERIAL 2
-#else
-  #define NUM_SERIAL 1
 #endif
 
 #define CRITICAL_SECTION_START() portENTER_CRITICAL(&spinlock)
@@ -114,8 +109,9 @@ void analogWrite(pin_t pin, int value);
 
 void HAL_adc_init();
 
-#define HAL_START_ADC(pin)  HAL_adc_start_conversion(pin)
+#define HAL_ADC_VREF         3.3
 #define HAL_ADC_RESOLUTION  10
+#define HAL_START_ADC(pin)  HAL_adc_start_conversion(pin)
 #define HAL_READ_ADC()      HAL_adc_result
 #define HAL_ADC_READY()     true
 

@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #pragma once
@@ -34,8 +34,6 @@
 #include "fastio.h"
 #include "watchdog.h"
 
-#include "timers.h"
-
 #include <stdint.h>
 #include <util/atomic.h>
 
@@ -47,22 +45,23 @@
 // Defines
 // ------------------------
 
-#define IS_32BIT_TEENSY (defined(__MK64FX512__) || defined(__MK66FX1M0__))
-#define IS_TEENSY35 defined(__MK64FX512__)
-#define IS_TEENSY36 defined(__MK66FX1M0__)
+#ifdef __MK64FX512__
+  #define IS_32BIT_TEENSY 1
+  #define IS_TEENSY35 1
+#endif
+#ifdef __MK66FX1M0__
+  #define IS_32BIT_TEENSY 1
+  #define IS_TEENSY36 1
+#endif
 
-#define NUM_SERIAL 1
+#define _MSERIAL(X) Serial##X
+#define MSERIAL(X) _MSERIAL(X)
+#define Serial0 Serial
 
 #if SERIAL_PORT == -1
   #define MYSERIAL0 SerialUSB
-#elif SERIAL_PORT == 0
-  #define MYSERIAL0 Serial
-#elif SERIAL_PORT == 1
-  #define MYSERIAL0 Serial1
-#elif SERIAL_PORT == 2
-  #define MYSERIAL0 Serial2
-#elif SERIAL_PORT == 3
-  #define MYSERIAL0 Serial3
+#elif WITHIN(SERIAL_PORT, 0, 3)
+  #define MYSERIAL0 MSERIAL(SERIAL_PORT)
 #endif
 
 #define HAL_SERVO_LIB libServo
@@ -114,8 +113,9 @@ extern "C" {
 
 void HAL_adc_init();
 
-#define HAL_START_ADC(pin)  HAL_adc_start_conversion(pin)
+#define HAL_ADC_VREF         3.3
 #define HAL_ADC_RESOLUTION  10
+#define HAL_START_ADC(pin)  HAL_adc_start_conversion(pin)
 #define HAL_READ_ADC()      HAL_adc_get_result()
 #define HAL_ADC_READY()     true
 
