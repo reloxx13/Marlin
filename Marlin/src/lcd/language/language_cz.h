@@ -31,7 +31,6 @@
  * Translated by Petr Zahradnik, Computer Laboratory
  * Blog and video blog Zahradnik se bavi
  * https://www.zahradniksebavi.cz
- *
  */
 
 #define DISPLAY_CHARSET_ISO10646_CZ
@@ -58,7 +57,7 @@ namespace Language_cz {
   PROGMEM Language_Str MSG_MAIN                            = _UxGT("Hlavní nabídka");
   PROGMEM Language_Str MSG_ADVANCED_SETTINGS               = _UxGT("Další nastavení");
   PROGMEM Language_Str MSG_CONFIGURATION                   = _UxGT("Konfigurace");
-  PROGMEM Language_Str MSG_AUTOSTART                       = _UxGT("Autostart");
+  PROGMEM Language_Str MSG_RUN_AUTO_FILES                  = _UxGT("Autostart");
   PROGMEM Language_Str MSG_DISABLE_STEPPERS                = _UxGT("Uvolnit motory");
   PROGMEM Language_Str MSG_DEBUG_MENU                      = _UxGT("Nabídka ladění");
   #if LCD_WIDTH >= 20
@@ -351,11 +350,11 @@ namespace Language_cz {
   PROGMEM Language_Str MSG_CONTROL_RETRACT_SWAP            = _UxGT("Výměna Re.mm");
   PROGMEM Language_Str MSG_CONTROL_RETRACTF                = _UxGT("Retraktovat  V");
   PROGMEM Language_Str MSG_CONTROL_RETRACT_ZHOP            = _UxGT("Zvednuti Z mm");
-  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVER         = _UxGT("UnRet mm");
-  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVER_SWAP    = _UxGT("S UnRet mm");
-  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVERF        = _UxGT("UnRet  V");
+  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVER         = _UxGT("Unretr. mm");
+  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVER_SWAP    = _UxGT("S Unretr. mm");
+  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVERF        = _UxGT("Unretract V");
   PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVER_SWAPF   = _UxGT("S UnRet V");
-  PROGMEM Language_Str MSG_AUTORETRACT                     = _UxGT("AutoRetr.");
+  PROGMEM Language_Str MSG_AUTORETRACT                     = _UxGT("Auto-Retract");
   PROGMEM Language_Str MSG_FILAMENT_SWAP_LENGTH            = _UxGT("Délka retrakce");
   PROGMEM Language_Str MSG_FILAMENT_PURGE_LENGTH           = _UxGT("Délka zavedení");
   PROGMEM Language_Str MSG_TOOL_CHANGE                     = _UxGT("Výměna nástroje");

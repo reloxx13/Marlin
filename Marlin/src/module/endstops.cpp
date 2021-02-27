@@ -30,7 +30,7 @@
 #include "../MarlinCore.h"
 #include "../sd/cardreader.h"
 #include "temperature.h"
-#include "../lcd/ultralcd.h"
+#include "../lcd/marlinui.h"
 
 #if ENABLED(ENDSTOP_INTERRUPTS_FEATURE)
   #include HAL_PATH(../HAL, endstop_interrupts.h)
@@ -351,7 +351,7 @@ void Endstops::event_handler() {
   if (hit_state == prev_hit_state) return;
   prev_hit_state = hit_state;
   if (hit_state) {
-    #if HAS_SPI_LCD
+    #if HAS_WIRED_LCD
       char chrX = ' ', chrY = ' ', chrZ = ' ', chrP = ' ';
       #define _SET_STOP_CHAR(A,C) (chr## A = C)
     #else
@@ -382,7 +382,7 @@ void Endstops::event_handler() {
     #endif
     SERIAL_EOL();
 
-    TERN_(HAS_SPI_LCD, ui.status_printf_P(0, PSTR(S_FMT " %c %c %c %c"), GET_TEXT(MSG_LCD_ENDSTOPS), chrX, chrY, chrZ, chrP));
+    TERN_(HAS_WIRED_LCD, ui.status_printf_P(0, PSTR(S_FMT " %c %c %c %c"), GET_TEXT(MSG_LCD_ENDSTOPS), chrX, chrY, chrZ, chrP));
 
     #if BOTH(SD_ABORT_ON_ENDSTOP_HIT, SDSUPPORT)
       if (planner.abort_on_endstop_hit) {
@@ -899,6 +899,9 @@ void Endstops::update() {
         hit = true;
       }
     #endif
+
+    if (TERN0(ENDSTOP_INTERRUPTS_FEATURE, hit)) update();
+
     return hit;
   }
 

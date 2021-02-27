@@ -45,6 +45,10 @@
   #endif
 #endif
 
+#if ENABLED(SOUND_MENU_ITEM)
+  #include "../../libs/buzzer.h"
+#endif
+
 #define HAS_DEBUG_MENU ENABLED(LCD_PROGRESS_BAR_TEST)
 
 void menu_advanced_settings();
@@ -60,7 +64,9 @@ void menu_advanced_settings();
     static int8_t bar_percent = 0;
     if (ui.use_click()) {
       ui.goto_previous_screen();
-      ui.set_custom_characters(CHARSET_MENU);
+      #if HAS_MARLINUI_HD44780
+        ui.set_custom_characters(CHARSET_MENU);
+      #endif
       return;
     }
     bar_percent += (int8_t)ui.encoderPosition;
@@ -73,7 +79,9 @@ void menu_advanced_settings();
 
   void _progress_bar_test() {
     ui.goto_screen(progress_bar_test);
-    ui.set_custom_characters(CHARSET_INFO);
+    #if HAS_MARLINUI_HD44780
+      ui.set_custom_characters(CHARSET_INFO);
+    #endif
   }
 
 #endif // LCD_PROGRESS_BAR_TEST
@@ -406,6 +414,10 @@ void menu_configuration() {
   #if PREHEAT_COUNT && DISABLED(SLIM_LCD_MENUS)
     LOOP_L_N(m, PREHEAT_COUNT)
       SUBMENU_N_S(m, ui.get_preheat_label(m), MSG_PREHEAT_M_SETTINGS, _menu_configuration_preheat_settings);
+  #endif
+
+  #if ENABLED(SOUND_MENU_ITEM)
+    EDIT_ITEM(bool, MSG_SOUND, &ui.buzzer_enabled, []{ ui.chirp(); });
   #endif
 
   #if ENABLED(EEPROM_SETTINGS)

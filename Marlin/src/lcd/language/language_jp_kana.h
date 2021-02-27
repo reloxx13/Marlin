@@ -27,7 +27,6 @@
  *
  * LCD Menu Messages
  * See also https://marlinfw.org/docs/development/lcd_language.html
- *
  */
 
 //#define DISPLAY_CHARSET_ISO10646_KANA
@@ -48,7 +47,7 @@ namespace Language_jp_kana {
   PROGMEM Language_Str MSG_RELEASE_MEDIA                   = _UxGT("メディアノトリダシ");
   PROGMEM Language_Str MSG_LCD_ENDSTOPS                    = _UxGT("エンドストップ");                  // "Endstops" // Max length 8 characters
   PROGMEM Language_Str MSG_MAIN                            = _UxGT("メイン");                       // "Main"
-  PROGMEM Language_Str MSG_AUTOSTART                       = _UxGT("ジドウカイシ");                   // "Autostart"
+  PROGMEM Language_Str MSG_RUN_AUTO_FILES                  = _UxGT("ジドウカイシ");                   // "Autostart"
   PROGMEM Language_Str MSG_DISABLE_STEPPERS                = _UxGT("モーターデンゲン オフ");            // "Disable steppers"
   PROGMEM Language_Str MSG_DEBUG_MENU                      = _UxGT("デバッグメニュー");                // "Debug Menu"
   PROGMEM Language_Str MSG_PROGRESS_BAR_TEST               = _UxGT("プログレスバー テスト");            // "Progress Bar Test"
@@ -161,12 +160,12 @@ namespace Language_jp_kana {
   PROGMEM Language_Str MSG_STOPPED                         = _UxGT("テイシシマシタ");                  // "STOPPED. "
   PROGMEM Language_Str MSG_CONTROL_RETRACT                 = _UxGT("ヒキコミリョウ mm");                // "Retract mm"
   PROGMEM Language_Str MSG_CONTROL_RETRACT_SWAP            = _UxGT("ヒキコミリョウS mm");               // "Swap Re.mm"
-  PROGMEM Language_Str MSG_CONTROL_RETRACTF                = _UxGT("ヒキコミソクド mm/s");             // "Retract  V"
+  PROGMEM Language_Str MSG_CONTROL_RETRACTF                = _UxGT("ヒキコミソクド mm/s");             // "Retract V"
   PROGMEM Language_Str MSG_CONTROL_RETRACT_ZHOP            = _UxGT("ノズルタイヒ mm");                // "Hop mm"
-  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVER         = _UxGT("ホショウリョウ mm");               // "UnRet mm"
-  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVER_SWAP    = _UxGT("ホショウリョウS mm");              // "S UnRet mm"
-  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVERF        = _UxGT("ホショウソクド mm/s");            // "UnRet  V"
-  PROGMEM Language_Str MSG_AUTORETRACT                     = _UxGT("ジドウヒキコミ");                 // "AutoRetr."
+  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVER         = _UxGT("ホショウリョウ mm");               // "Unretr. mm"
+  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVER_SWAP    = _UxGT("ホショウリョウS mm");              // "S Unretr. mm"
+  PROGMEM Language_Str MSG_CONTROL_RETRACT_RECOVERF        = _UxGT("ホショウソクド mm/s");            // "Unretract V"
+  PROGMEM Language_Str MSG_AUTORETRACT                     = _UxGT("ジドウヒキコミ");                 // "Auto-Retract"
   PROGMEM Language_Str MSG_FILAMENTCHANGE                  = _UxGT("フィラメントコウカン");              // "Change filament"
   PROGMEM Language_Str MSG_ATTACH_MEDIA                    = _UxGT("メディアサイヨミコミ");             // "Init. SD card"
   PROGMEM Language_Str MSG_CHANGE_MEDIA                    = _UxGT("メディアコウカン");               // "Change SD card"
