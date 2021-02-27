@@ -26,8 +26,9 @@
 
 #include "../inc/MarlinConfigPre.h"
 
-#if HAS_WIRED_LCD
+#if HAS_WIRED_LCD && !HAS_GRAPHICAL_TFT
 
+#include "marlinui.h"
 #include "lcdprint.h"
 
 /**
