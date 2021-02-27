@@ -820,7 +820,7 @@
 #if ENABLED(ASSISTED_TRAMMING)
 
   // Define positions for probe points.
-  #define TRAMMING_POINT_XY { {  30, 30 }, { X_BED_SIZE-30,  30 }, { X_BED_SIZE, Y_BED_SIZE-30 }, { 30, Y_BED_SIZE-30 } }
+  #define TRAMMING_POINT_XY { {  PROBING_MARGIN, PROBING_MARGIN }, { X_BED_SIZE-PROBING_MARGIN,  PROBING_MARGIN }, { X_BED_SIZE-PROBING_MARGIN, Y_BED_SIZE-PROBING_MARGIN }, { PROBING_MARGIN, Y_BED_SIZE-PROBING_MARGIN } }
 
   // Define position names for probe points.
   #define TRAMMING_POINT_NAME_1 "Front-Left"
