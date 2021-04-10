@@ -1083,7 +1083,7 @@
  */
 
 // arms https://www.thingiverse.com/thing:3432489x
-#define NOZZLE_TO_PROBE_OFFSET { -27, -2, -1.88 }
+#define NOZZLE_TO_PROBE_OFFSET { -27, -2, -1.84 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
