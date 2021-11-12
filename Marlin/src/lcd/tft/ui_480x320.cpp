@@ -47,6 +47,7 @@
 
 void MarlinUI::tft_idle() {
   #if ENABLED(TOUCH_SCREEN)
+    if (TERN0(HAS_TOUCH_SLEEP, lcd_sleep_task())) return;
     if (draw_menu_navigation) {
       add_control(104, TFT_HEIGHT - 34, PAGE_UP, imgPageUp, encoderTopLine > 0);
       add_control(344, TFT_HEIGHT - 34, PAGE_DOWN, imgPageDown, encoderTopLine + LCD_HEIGHT < screen_items);
@@ -60,6 +61,7 @@ void MarlinUI::tft_idle() {
 }
 
 #if ENABLED(SHOW_BOOTSCREEN)
+
   void MarlinUI::show_bootscreen() {
     tft.queue.reset();
 
@@ -81,9 +83,13 @@ void MarlinUI::tft_idle() {
     #endif
 
     tft.queue.sync();
-    safe_delay(BOOTSCREEN_TIMEOUT);
+  }
+
+  void MarlinUI::bootscreen_completion(const millis_t sofar) {
+    if ((BOOTSCREEN_TIMEOUT) > sofar) safe_delay((BOOTSCREEN_TIMEOUT) - sofar);
     clear_lcd();
   }
+
 #endif
 
 void MarlinUI::draw_kill_screen() {
@@ -117,18 +123,18 @@ void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater) {
   celsius_t currentTemperature, targetTemperature;
 
   if (Heater >= 0) { // HotEnd
-    currentTemperature = thermalManager.degHotend(Heater);
+    currentTemperature = thermalManager.wholeDegHotend(Heater);
     targetTemperature = thermalManager.degTargetHotend(Heater);
   }
   #if HAS_HEATED_BED
     else if (Heater == H_BED) {
-      currentTemperature = thermalManager.degBed();
+      currentTemperature = thermalManager.wholeDegBed();
       targetTemperature = thermalManager.degTargetBed();
     }
   #endif
   #if HAS_TEMP_CHAMBER
     else if (Heater == H_CHAMBER) {
-      currentTemperature = thermalManager.degChamber();
+      currentTemperature = thermalManager.wholeDegChamber();
       #if HAS_HEATED_CHAMBER
         targetTemperature = thermalManager.degTargetChamber();
       #else
@@ -138,7 +144,7 @@ void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater) {
   #endif
   #if HAS_TEMP_COOLER
     else if (Heater == H_COOLER) {
-      currentTemperature = thermalManager.degCooler();
+      currentTemperature = thermalManager.wholeDegCooler();
       targetTemperature = TERN(HAS_COOLER, thermalManager.degTargetCooler(), ABSOLUTE_ZERO);
     }
   #endif
@@ -163,6 +169,13 @@ void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater) {
     else if (Heater == H_CHAMBER) {
       if (currentTemperature >= 50) Color = COLOR_CHAMBER;
       image = targetTemperature > 0 ? imgChamberHeated : imgChamber;
+    }
+  #endif
+  #if HAS_TEMP_COOLER
+    else if (Heater == H_COOLER) {
+      if (currentTemperature <= 26) Color = COLOR_COLD;
+      if (currentTemperature > 26) Color = COLOR_RED;
+      image = targetTemperature > 26 ? imgCoolerHot : imgCooler;
     }
   #endif
 
@@ -228,6 +241,9 @@ void MarlinUI::draw_status_screen() {
       #endif
       #ifdef ITEM_CHAMBER
         case ITEM_CHAMBER: draw_heater_status(x, y, H_CHAMBER); break;
+      #endif
+      #ifdef ITEM_COOLER
+        case ITEM_COOLER: draw_heater_status(x, y, H_COOLER); break;
       #endif
       #ifdef ITEM_FAN
         case ITEM_FAN: draw_fan_status(x, y, blink); break;
@@ -438,7 +454,7 @@ void MenuItem_confirm::draw_select_screen(PGM_P const yes, PGM_P const no, const
     tft_string.add('E');
     tft_string.add((char)('1' + extruder));
     tft_string.add(' ');
-    tft_string.add(i16tostr3rj(thermalManager.degHotend(extruder)));
+    tft_string.add(i16tostr3rj(thermalManager.wholeDegHotend(extruder)));
     tft_string.add(LCD_STR_DEGREE);
     tft_string.add(" / ");
     tft_string.add(i16tostr3rj(thermalManager.degTargetHotend(extruder)));
@@ -538,7 +554,6 @@ struct MotionAxisState {
   float currentStepSize = 10.0;
   int z_selection = Z_SELECTION_Z;
   uint8_t e_selection = 0;
-  bool homming = false;
   bool blocked = false;
   char message[32];
 };
@@ -603,16 +618,11 @@ static void drawMessage(const char *msg) {
   tft.add_text(0, 0, COLOR_YELLOW, msg);
 }
 
-static void drawAxisValue(AxisEnum axis) {
-  const float value =
-    #if HAS_BED_PROBE
-      axis == Z_AXIS && motionAxisState.z_selection == Z_SELECTION_Z_PROBE ?
-      probe.offset.z :
-    #endif
-    NATIVE_TO_LOGICAL(
-      ui.manual_move.processing ? destination[axis] : SUM_TERN(IS_KINEMATIC, current_position[axis], ui.manual_move.offset),
-      axis
-    );
+static void drawAxisValue(const AxisEnum axis) {
+  const float value = (
+    TERN_(HAS_BED_PROBE, axis == Z_AXIS && motionAxisState.z_selection == Z_SELECTION_Z_PROBE ? probe.offset.z :)
+    ui.manual_move.axis_value(axis)
+  );
   xy_int_t pos;
   uint16_t color;
   switch (axis) {
@@ -628,13 +638,15 @@ static void drawAxisValue(AxisEnum axis) {
   tft.add_text(0, 0, color, tft_string);
 }
 
-static void moveAxis(AxisEnum axis, const int8_t direction) {
+static void moveAxis(const AxisEnum axis, const int8_t direction) {
   quick_feedback();
 
-  if (axis == E_AXIS && thermalManager.temp_hotend[motionAxisState.e_selection].celsius < EXTRUDE_MINTEMP) {
-    drawMessage("Too cold");
-    return;
-  }
+  #if ENABLED(PREVENT_COLD_EXTRUSION)
+    if (axis == E_AXIS && thermalManager.tooColdToExtrude(motionAxisState.e_selection)) {
+      drawMessage("Too cold");
+      return;
+    }
+  #endif
 
   const float diff = motionAxisState.currentStepSize * direction;
 
@@ -642,7 +654,7 @@ static void moveAxis(AxisEnum axis, const int8_t direction) {
     #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
       const int16_t babystep_increment = direction * BABYSTEP_SIZE_Z;
       const bool do_probe = DISABLED(BABYSTEP_HOTEND_Z_OFFSET) || active_extruder == 0;
-      const float bsDiff = planner.steps_to_mm[Z_AXIS] * babystep_increment,
+      const float bsDiff = planner.mm_per_step[Z_AXIS] * babystep_increment,
                   new_probe_offset = probe.offset.z + bsDiff,
                   new_offs = TERN(BABYSTEP_HOTEND_Z_OFFSET
                     , do_probe ? new_probe_offset : hotend_offset[active_extruder].z - bsDiff
@@ -694,31 +706,15 @@ static void moveAxis(AxisEnum axis, const int8_t direction) {
     #endif
 
     // Get the new position
+    const bool limited = ui.manual_move.apply_diff(axis, diff, min, max);
     #if IS_KINEMATIC
-      ui.manual_move.offset += diff;
-      if (direction < 0)
-        NOLESS(ui.manual_move.offset, min - current_position[axis]);
-      else
-        NOMORE(ui.manual_move.offset, max - current_position[axis]);
+      UNUSED(limited);
     #else
-      current_position[axis] += diff;
-      const char *msg = NUL_STR; // clear the error
-      if (direction < 0 && current_position[axis] < min) {
-        current_position[axis] = min;
-        msg = GET_TEXT(MSG_LCD_SOFT_ENDSTOPS);
-      }
-      else if (direction > 0 && current_position[axis] > max) {
-        current_position[axis] = max;
-        msg = GET_TEXT(MSG_LCD_SOFT_ENDSTOPS);
-      }
+      PGM_P const msg = limited ? GET_TEXT(MSG_LCD_SOFT_ENDSTOPS) : NUL_STR;
       drawMessage(msg);
     #endif
 
-    ui.manual_move.soon(axis
-      #if MULTI_MANUAL
-        , motionAxisState.e_selection
-      #endif
-    );
+    ui.manual_move.soon(axis OPTARG(MULTI_E_MANUAL, motionAxisState.e_selection));
   }
 
   drawAxisValue(axis);
@@ -776,7 +772,7 @@ static void z_minus() { moveAxis(Z_AXIS, -1); }
 
 static void disable_steppers() {
   quick_feedback();
-  queue.inject_P(PSTR("M84"));
+  queue.inject(F("M84"));
 }
 
 static void drawBtn(int x, int y, const char *label, intptr_t data, MarlinImage img, uint16_t bgColor, bool enabled = true) {
@@ -907,8 +903,5 @@ void MarlinUI::move_axis_screen() {
 
   TERN_(HAS_TFT_XPT2046, add_control(TFT_WIDTH - X_MARGIN - BTN_WIDTH, y, BACK, imgBack));
 }
-
-#undef BTN_WIDTH
-#undef BTN_HEIGHT
 
 #endif // HAS_UI_480x320
