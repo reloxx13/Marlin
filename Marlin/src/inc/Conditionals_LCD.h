@@ -31,8 +31,8 @@
   #define MKS_MINI_12864
 #endif
 
-// MKS_MINI_12864_V3 is simply identical to FYSETC_MINI_12864_2_1
-#if ENABLED(MKS_MINI_12864_V3)
+// MKS_MINI_12864_V3 and BTT_MINI_12864_V1 are identical to FYSETC_MINI_12864_2_1
+#if EITHER(MKS_MINI_12864_V3, BTT_MINI_12864_V1)
   #define FYSETC_MINI_12864_2_1
 #endif
 
@@ -693,6 +693,15 @@
   #define HAS_Y_AXIS 1
   #if LINEAR_AXES >= XYZ
     #define HAS_Z_AXIS 1
+    #if LINEAR_AXES >= 4
+      #define HAS_I_AXIS 1
+      #if LINEAR_AXES >= 5
+        #define HAS_J_AXIS 1
+        #if LINEAR_AXES >= 6
+          #define HAS_K_AXIS 1
+        #endif
+      #endif
+    #endif
   #endif
 #endif
 
@@ -822,7 +831,7 @@
 /**
  * Set a flag for any type of bed probe, including the paper-test
  */
-#if ANY(HAS_Z_SERVO_PROBE, FIX_MOUNTED_PROBE, NOZZLE_AS_PROBE, TOUCH_MI_PROBE, Z_PROBE_ALLEN_KEY, Z_PROBE_SLED, SOLENOID_PROBE, SENSORLESS_PROBING, RACK_AND_PINION_PROBE)
+#if ANY(HAS_Z_SERVO_PROBE, FIX_MOUNTED_PROBE, NOZZLE_AS_PROBE, TOUCH_MI_PROBE, Z_PROBE_ALLEN_KEY, Z_PROBE_SLED, SOLENOID_PROBE, SENSORLESS_PROBING, RACK_AND_PINION_PROBE, MAGLEV4)
   #define HAS_BED_PROBE 1
 #endif
 
@@ -925,6 +934,11 @@
   #define X_HOME_TO_MAX 1
 #elif X_HOME_DIR < 0
   #define X_HOME_TO_MIN 1
+#endif
+#if X2_HOME_DIR > 0
+  #define X2_HOME_TO_MAX 1
+#elif X2_HOME_DIR < 0
+  #define X2_HOME_TO_MIN 1
 #endif
 #if Y_HOME_DIR > 0
   #define Y_HOME_TO_MAX 1
@@ -1079,7 +1093,7 @@
     #define CORE_AXIS_2 C_AXIS
   #endif
   #define CORESIGN(n) (ANY(COREYX, COREZX, COREZY) ? (-(n)) : (n))
-#elif ENABLED(MARKFORGED_XY)
+#elif EITHER(MARKFORGED_XY, MARKFORGED_YX)
   // Markforged kinematics
   #define CORE_AXIS_1 A_AXIS
   #define CORE_AXIS_2 B_AXIS
@@ -1215,13 +1229,13 @@
 #if HAS_Z_AXIS && !defined(INVERT_Z_DIR)
   #define INVERT_Z_DIR false
 #endif
-#if LINEAR_AXES >= 4 && !defined(INVERT_I_DIR)
+#if HAS_I_AXIS && !defined(INVERT_I_DIR)
   #define INVERT_I_DIR false
 #endif
-#if LINEAR_AXES >= 5 && !defined(INVERT_J_DIR)
+#if HAS_J_AXIS && !defined(INVERT_J_DIR)
   #define INVERT_J_DIR false
 #endif
-#if LINEAR_AXES >= 6 && !defined(INVERT_K_DIR)
+#if HAS_K_AXIS && !defined(INVERT_K_DIR)
   #define INVERT_K_DIR false
 #endif
 #if HAS_EXTRUDERS && !defined(INVERT_E_DIR)
@@ -1411,7 +1425,7 @@
   #endif
 #endif
 
-#if ANY(USE_XMIN_PLUG, USE_YMIN_PLUG, USE_ZMIN_PLUG, USE_XMAX_PLUG, USE_YMAX_PLUG, USE_ZMAX_PLUG)
+#if X_HOME_DIR || (HAS_Y_AXIS && Y_HOME_DIR) || (HAS_Z_AXIS && Z_HOME_DIR) || (HAS_I_AXIS && I_HOME_DIR) || (HAS_J_AXIS && J_HOME_DIR) || (HAS_K_AXIS && K_HOME_DIR)
   #define HAS_ENDSTOPS 1
   #define COORDINATE_OKAY(N,L,H) WITHIN(N,L,H)
 #else
