@@ -215,7 +215,7 @@
 //
 #define FILAMENT_CHANGE_SLOW_LOAD_FEEDRATE       6
 #define PAUSE_PARK_RETRACT_LENGTH                2
-#define FILAMENT_UNLOAD_PURGE_RETRACT            13
+#define FILAMENT_UNLOAD_PURGE_RETRACT            0
 #define FILAMENT_CHANGE_FAST_LOAD_LENGTH         400
 #define FILAMENT_UNLOAD_PURGE_FEEDRATE           25
 #define FILAMENT_CHANGE_UNLOAD_FEEDRATE          20
@@ -233,11 +233,11 @@
 #define CONFIGURE_FILAMENT_CHANGE
 #define FILAMENT_LOAD_UNLOAD_GCODES
 #define FILAMENT_CHANGE_SLOW_LOAD_LENGTH         0
-#define FILAMENT_UNLOAD_PURGE_LENGTH             8
+#define FILAMENT_UNLOAD_PURGE_LENGTH             0
 #define ADVANCED_PAUSE_RESUME_PRIME              0
 #define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE       12
 #define FILAMENT_CHANGE_UNLOAD_ACCEL             25
-#define FILAMENT_UNLOAD_PURGE_DELAY              5000
+#define FILAMENT_UNLOAD_PURGE_DELAY              0
 
 //
 // Calibrate
@@ -346,7 +346,7 @@
 #define PROPORTIONAL_FONT_RATIO                  1.0
 #define SERIAL_OVERRUN_PROTECTION
 #define TX_BUFFER_SIZE                           0
-#define CUSTOM_MACHINE_NAME                      "Ender-3 SKR Mini E3 v2026.2"
+//#define CUSTOM_MACHINE_NAME                     "Ender-3 SKR Mini E3"
 #define EMERGENCY_PARSER
 
 //
