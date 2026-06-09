@@ -33,7 +33,7 @@
  * vendor name, download location, GitHub account, etc.
  */
 #ifndef DETAILED_BUILD_VERSION
-  #define DETAILED_BUILD_VERSION "Ender-3 SKR Mini E3 v2026.1"
+  #define DETAILED_BUILD_VERSION "Ender-3 SKR Mini E3 v2026.2"
 #endif
 
 /**
@@ -42,7 +42,7 @@
  * version was tagged.
  */
 #ifndef STRING_DISTRIBUTION_DATE
-  #define STRING_DISTRIBUTION_DATE "2026-06-04"
+  #define STRING_DISTRIBUTION_DATE "2026-06-08"
 #endif
 
 /**
